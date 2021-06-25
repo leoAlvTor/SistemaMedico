@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="swingx-1.6.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/lib/swingx-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/lib/flatlaf-1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ideaLibSources/flatlaf-1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
