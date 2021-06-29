@@ -39,12 +39,12 @@ public class CitaController extends CRUD<Cita>{
     }
 
     @Override
-    public boolean updateRecord(Cita instance) {
-        return false;
+    public int updateRecord(Object id, Object ... objects) {
+        return -1;
     }
 
     @Override
-    public boolean deleteRecord(Cita instance) {
-        return false;
+    public int deleteRecord(Object id) {
+        return -1;
     }
 }
