@@ -179,7 +179,7 @@ public class Paciente {
         return citas.add(cita);
     }
 
-    public List<Object> mapToList(){
+    public Object[] toList(){
         List<Object> objectList = new ArrayList<>();
 
         objectList.add(cedula);
@@ -198,9 +198,10 @@ public class Paciente {
         objectList.add(talla);
         objectList.add(grupoSanguineo);
 
-        return objectList;
+        return objectList.toArray();
     }
 
+    @Deprecated(since = "1.0 Replaced with Apache Commons DBUtils")
     public Paciente resultSetToPaciente(ResultSet resultSet) throws Exception{
         this.numeroFicha = resultSet.getInt(1);
         this.cedula = resultSet.getString(2);
@@ -220,6 +221,7 @@ public class Paciente {
         this.grupoSanguineo = resultSet.getString(16);
         return this;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
