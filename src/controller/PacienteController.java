@@ -6,7 +6,9 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,27 +23,17 @@ public class PacienteController extends CRUD<Paciente> {
     }
 
     @Override
-    public boolean createRecord(Paciente instance){
-        var sql = "insert into paciente(CEDULA, NOMBRES, APELLIDOS, DIRECCION, TELEFONO, CELULAR, ESTADOCIVIL, " +
-                "PROCEDENCIA, RESIDENCIA, FECHANACIMIENTO, GENERO, ANTECEDENTES, PESO, TALLA, GRUPOSANGUINEO) values " +
-                "(?, ?, ?, ?, ?, ?," +
-                " ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement preparedStatement;
+    public BigInteger createRecord(Object ... objects){
         try {
-            preparedStatement = connection.prepareStatement(sql);
-            List<Object> objectList = instance.mapToList();
-            for (int i = 0; i < objectList.size(); i++) {
-                if(!Objects.isNull(objectList.get(i)))
-                    preparedStatement.setObject(i + 1, instance.mapToList().get(i));
-                else
-                    preparedStatement.setObject(i, "NA");
-            }
-            boolean isCorrect = preparedStatement.execute();
-            preparedStatement.close();
-            return isCorrect;
+            ScalarHandler<BigInteger> scalarHandler = new ScalarHandler<>();
+            var runner = new QueryRunner();
+            String insertSQL = "insert into paciente(CEDULA, NOMBRES, APELLIDOS, DIRECCION, TELEFONO, CELULAR," +
+                    " ESTADOCIVIL, PROCEDENCIA, RESIDENCIA, FECHANACIMIENTO, GENERO, ANTECEDENTES, PESO, TALLA," +
+                    " GRUPOSANGUINEO) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            return runner.insert(connection, insertSQL, scalarHandler, objects);
         }catch (Exception e){
-            System.err.println("ERROR: Error while creating Paciente.");
-            return false;
+            return BigInteger.valueOf(-1);
         }
     }
 
@@ -50,8 +42,7 @@ public class PacienteController extends CRUD<Paciente> {
         ResultSetHandler<Paciente> resultSetHandler = new BeanHandler<>(Paciente.class);
         var runner = new QueryRunner();
         try {
-            return runner.query(connection, "select * from paciente where NUMEROFICHA = ?", resultSetHandler
-                    , id);
+            return runner.query(connection, "select * from paciente where NUMEROFICHA = ?", resultSetHandler, id);
         }catch (Exception e){
             System.out.println("ERROR: Error while getting Paciente record with ID: " + id);
             return null;
@@ -96,6 +87,26 @@ public class PacienteController extends CRUD<Paciente> {
 
     public static void main(String[] args) throws Exception{
         PacienteController pacienteController = new PacienteController();
+
+        Paciente paciente = new Paciente();
+        paciente.setCedula("NA");
+        paciente.setNombres("Caldo de Patito");
+        paciente.setApellidos("Local Bagre");
+        paciente.setDireccion("UPS");
+        paciente.setTelefono("0998072563");
+        paciente.setCelular("09980725664");
+        paciente.setEstadoCivil("SALTERO");
+        paciente.setProcedencia("CUENCA");
+        paciente.setResidencia("CUENCA");
+        paciente.setFechaNacimiento("22/04/1999");
+        paciente.setGenero("MASCULINO");
+        paciente.setAntecedentes("Alergia al polvo.");
+        paciente.setPeso(64);
+        paciente.setTalla(164);
+        paciente.setGrupoSanguineo("O+");
+
+        pacienteController.createRecord(paciente.toList());
+
 
     }
 
