@@ -1,9 +1,9 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Objects;
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Paciente {
 
@@ -27,6 +27,7 @@ public class Paciente {
     private List<Cita> citas;
 
     public Paciente(){
+        fechaNacimiento = new GregorianCalendar();
         citas = new ArrayList<>();
     }
 
@@ -114,8 +115,16 @@ public class Paciente {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(GregorianCalendar fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public GregorianCalendar setFechaNacimiento(String fechaNacimiento) {
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = dateFormat.parse(fechaNacimiento);
+            this.fechaNacimiento.setTime(date);
+            return this.fechaNacimiento;
+        }catch (Exception e){
+            this.fechaNacimiento.setTime(new Date());
+            return this.fechaNacimiento;
+        }
     }
 
     public String getGenero() {
@@ -170,6 +179,47 @@ public class Paciente {
         return citas.add(cita);
     }
 
+    public List<Object> mapToList(){
+        List<Object> objectList = new ArrayList<>();
+
+        objectList.add(cedula);
+        objectList.add(nombres);
+        objectList.add(apellidos);
+        objectList.add(direccion);
+        objectList.add(telefono);
+        objectList.add(celular);
+        objectList.add(estadoCivil);
+        objectList.add(procedencia);
+        objectList.add(residencia);
+        objectList.add(fechaNacimiento);
+        objectList.add(genero);
+        objectList.add(antecedentes);
+        objectList.add(peso);
+        objectList.add(talla);
+        objectList.add(grupoSanguineo);
+
+        return objectList;
+    }
+
+    public Paciente resultSetToPaciente(ResultSet resultSet) throws Exception{
+        this.numeroFicha = resultSet.getInt(1);
+        this.cedula = resultSet.getString(2);
+        this.nombres = resultSet.getString(3);
+        this.apellidos = resultSet.getString(4);
+        this.direccion = resultSet.getString(5);
+        this.telefono = resultSet.getString(6);
+        this.celular = resultSet.getString(7);
+        this.estadoCivil = resultSet.getString(8);
+        this.procedencia = resultSet.getString(9);
+        this.residencia = resultSet.getString(10);
+        this.setFechaNacimiento(resultSet.getString(11));
+        this.genero = resultSet.getString(12);
+        this.antecedentes = resultSet.getString(13);
+        this.peso = Double.parseDouble(resultSet.getString(14));
+        this.talla = Double.parseDouble(resultSet.getString(15));
+        this.grupoSanguineo = resultSet.getString(16);
+        return this;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
