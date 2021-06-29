@@ -1,11 +1,12 @@
 package controller;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.util.List;
 
 public abstract class CRUD<E>{
 
-    public abstract boolean createRecord(E instance);
+    public abstract BigInteger createRecord(Object ... objects);
 
     public abstract E getRecordById(Object id);
 
