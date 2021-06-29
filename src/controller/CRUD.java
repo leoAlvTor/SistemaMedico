@@ -12,8 +12,8 @@ public abstract class CRUD<E>{
 
     public abstract List<E> getAll();
 
-    public abstract boolean updateRecord(E instance);
+    public abstract int updateRecord(Object id, Object ... objects);
 
-    public abstract boolean deleteRecord(E instance);
+    public abstract int deleteRecord(Object id);
 
 }
