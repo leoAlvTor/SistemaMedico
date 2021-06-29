@@ -5,12 +5,6 @@ import java.util.List;
 
 public abstract class CRUD<E>{
 
-    private Connection connection;
-
-    public CRUD(){
-        
-    }
-
     public abstract boolean createRecord(E instance);
 
     public abstract E getRecordById(Object id);
