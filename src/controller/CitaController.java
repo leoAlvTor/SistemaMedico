@@ -3,6 +3,7 @@ package controller;
 import model.Cita;
 
 import javax.swing.*;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Objects;
@@ -20,11 +21,11 @@ public class CitaController extends CRUD<Cita>{
     }
 
     @Override
-    public boolean createRecord(Cita instance) {
+    public BigInteger createRecord(Object ... objects) {
         String sql = "INSERT INTO CITA VALUES(?,?,?,?,?,?,?,?)";
 
 
-        return false;
+        return BigInteger.ONE;
     }
 
     @Override
