@@ -33,6 +33,7 @@ public class PacienteController extends CRUD<Paciente> {
 
             return runner.insert(connection, insertSQL, scalarHandler, objects);
         }catch (Exception e){
+            System.out.println("ERROR: Error while creating record.");
             return BigInteger.valueOf(-1);
         }
     }
@@ -62,13 +63,31 @@ public class PacienteController extends CRUD<Paciente> {
     }
 
     @Override
-    public boolean updateRecord(Paciente instance) {
-        return false;
+    public int updateRecord(Object id, Object ... objects) {
+        Object[] objects1 = new Object[objects.length+1];
+        System.arraycopy(objects, 0, objects1, 0, objects.length);
+        objects1[objects.length] = id;
+        try {
+            QueryRunner runner = new QueryRunner();
+            String updateSQL = "update paciente set CEDULA = ?, NOMBRES = ?, APELLIDOS = ?, DIRECCION = ?, TELEFONO = ?, " +
+                    "CELULAR = ?, ESTADOCIVIL = ?, PROCEDENCIA = ?, RESIDENCIA = ?, FECHANACIMIENTO = ?, GENERO = ?, " +
+                    "ANTECEDENTES = ?, PESO = ?, TALLA = ?, GRUPOSANGUINEO = ? where NUMEROFICHA = ?";
+            return runner.update(connection, updateSQL, objects1);
+        }catch (Exception e){
+            System.out.println("ERROR: Error while updating record with id: " + id);
+            return -1;
+        }
     }
 
     @Override
-    public boolean deleteRecord(Paciente instance) {
-        return false;
+    public int deleteRecord(Object id) {
+        try {
+            QueryRunner runner = new QueryRunner();
+            var sql = "delete from paciente where NUMEROFICHA = ?";
+            return runner.update(connection, sql, id);
+        }catch (Exception e){
+            return -1;
+        }
     }
 
     public boolean closeConnection(){
@@ -88,26 +107,9 @@ public class PacienteController extends CRUD<Paciente> {
     public static void main(String[] args) throws Exception{
         PacienteController pacienteController = new PacienteController();
 
-        Paciente paciente = new Paciente();
-        paciente.setCedula("NA");
-        paciente.setNombres("Caldo de Patito");
-        paciente.setApellidos("Local Bagre");
-        paciente.setDireccion("UPS");
-        paciente.setTelefono("0998072563");
-        paciente.setCelular("09980725664");
-        paciente.setEstadoCivil("SALTERO");
-        paciente.setProcedencia("CUENCA");
-        paciente.setResidencia("CUENCA");
-        paciente.setFechaNacimiento("22/04/1999");
-        paciente.setGenero("MASCULINO");
-        paciente.setAntecedentes("Alergia al polvo.");
-        paciente.setPeso(64);
-        paciente.setTalla(164);
-        paciente.setGrupoSanguineo("O+");
+        pacienteController.deleteRecord(2815);
 
-        pacienteController.createRecord(paciente.toList());
-
-
+        pacienteController.closeConnection();
     }
 
 }
