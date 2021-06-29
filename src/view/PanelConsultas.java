@@ -18,10 +18,10 @@ public class PanelConsultas extends JPanel {
     private JTabbedPane tabbedPane;
 
     private JTextField txtNumeroFicha, txtFecha, txtCodigo, txtApellido, txtNombre, txtEdad,
-    txtGenero, txtResidencia, txtProcedencia, txtAnamnesis, txtExamen, txtDiagnostico;
+    txtGenero, txtResidencia, txtProcedencia, txtExamen, txtDiagnostico;
 
-    private JTextArea txtReceta, txtHistorial;
-    private JScrollPane jScrollPane, jScrollPaneReceta;
+    private JTextArea txtReceta, txtHistorial, txtAnamnesis;
+    private JScrollPane jScrollPane, jScrollPaneReceta, jScrollPaneAnamnesis;
 
     private JButton btnNuevo, btnGuardar, btnCancelar, btnImprimir, btnSalir, btnBuscar;
 
@@ -30,11 +30,22 @@ public class PanelConsultas extends JPanel {
         initTextFields();
         initButtons();
         generateView();
+
+        //repintar(this.getComponents());
+    }
+
+    private void repintar(Component[] components){
+        for(Component component : components){
+            if(component.getClass() == JPanel.class) {
+                component.setBackground(Color.ORANGE);
+                repintar(((JPanel) component).getComponents());
+            }
+        }
     }
 
     private void initLabels(){
         lblNumeroFicha = new JLabel("NUM. FICHA:");
-        lblCodigo = new JLabel("CODIGO:");
+        lblCodigo = new JLabel("CEDULA:");
         lblApellidos = new JLabel("APELLIDOS:");
         lblNombre = new JLabel("NOMBRES:");
         lblEdad = new JLabel("EDAD:");
@@ -57,7 +68,7 @@ public class PanelConsultas extends JPanel {
         txtResidencia = new JTextField();
         txtProcedencia = new JTextField();
 
-        txtAnamnesis = new JTextField();
+        txtAnamnesis = new JTextArea();
         txtExamen = new JTextField();
         txtDiagnostico = new JTextField();
         txtReceta = new JTextArea(10, 0);
@@ -187,16 +198,32 @@ public class PanelConsultas extends JPanel {
         pnl2.setLayout(gridLayout);
 
         JPanel subpnl2_1 = new JPanel();
-        GridLayout gridLayout1 = new GridLayout(3, 2);
-        gridLayout1.setVgap(10);
+        BorderLayout borderLayout = new BorderLayout();
+        borderLayout.setVgap(10);
+        subpnl2_1.setLayout(borderLayout);
+
+        JPanel pnl2_1 = new JPanel(new GridLayout(1 ,2));
+        pnl2_1.add(lblAnamnesis);
+
+        jScrollPaneAnamnesis = new JScrollPane(txtAnamnesis, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        pnl2_1.add(jScrollPaneAnamnesis);
+
+        JPanel subpnl2_1_1 = new JPanel();
+        GridLayout gridLayout1 = new GridLayout(2, 2);
+        gridLayout1.setVgap(5);
         gridLayout1.setHgap(5);
-        subpnl2_1.setLayout(gridLayout1);
-        subpnl2_1.add(lblAnamnesis);
-        subpnl2_1.add(txtAnamnesis);
-        subpnl2_1.add(lblExamenes);
-        subpnl2_1.add(txtExamen);
-        subpnl2_1.add(lblDiagnostico);
-        subpnl2_1.add(txtDiagnostico);
+        subpnl2_1_1.setLayout(gridLayout1);
+
+        subpnl2_1_1.add(lblExamenes);
+        subpnl2_1_1.add(txtExamen);
+        subpnl2_1_1.add(lblDiagnostico);
+        subpnl2_1_1.add(txtDiagnostico);
+
+        subpnl2_1.add(pnl2_1, BorderLayout.CENTER);
+        subpnl2_1.add(subpnl2_1_1, BorderLayout.SOUTH);
+
         pnl2.add(subpnl2_1);
 
         JPanel subpnl2_2 = new JPanel();

@@ -1,6 +1,7 @@
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import org.jdesktop.swingx.VerticalLayout;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -51,7 +52,7 @@ public class PanelPacientes extends JPanel {
         lblFechaNacimiento = new JLabel("FECHA NACIMIENTO:");
         lblEdad = new JLabel("EDAD:");
         lblEstadoCivil = new JLabel("ESTADO CIVIL:");
-        lblAntecedentes = new JLabel("ANTECEDENTES:");
+        //lblAntecedentes = new JLabel("ANTECEDENTES:");
         lblPesoKG = new JLabel("PESO KG:");
         lblTallaMT = new JLabel("TALLA MT:");
         lblTipoSangre = new JLabel("TIPO SANGRE:");
@@ -79,7 +80,7 @@ public class PanelPacientes extends JPanel {
         txtEdad = new JTextField("");
         txtPesoKG = new JTextField("");
         txtTallaMT = new JTextField("");
-        txtAntecendetes = new JTextArea();
+        //txtAntecendetes = new JTextArea();
     }
 
     private void initButtons(){
@@ -203,12 +204,12 @@ public class PanelPacientes extends JPanel {
         gridLayout.setColumns(2);
         gridLayout.setRows(4);
 
-        panelCenter.add(lblAntecedentes);
+        //panelCenter.add(lblAntecedentes);
 
-        jScrollPane = new JScrollPane(txtAntecendetes, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        //jScrollPane = new JScrollPane(txtAntecendetes, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+        //        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        panelCenter.add(jScrollPane);
+        //panelCenter.add(jScrollPane);
         panelCenter.add(lblPesoKG);
         panelCenter.add(txtPesoKG);
         panelCenter.add(lblTallaMT);
@@ -217,10 +218,13 @@ public class PanelPacientes extends JPanel {
         panelCenter.add(comboBoxTipoSange);
 
         panelCenter.setLayout(gridLayout);
-        panelCenter.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 10, 10, 10),  new TitledBorder(
-                "INFORMACION MEDICA")));
+        panelCenter.setBorder(new EmptyBorder(10, 0, 0, 0));
 
-        return panelCenter;
+        JPanel internalPanel = new JPanel(new VerticalLayout());
+        internalPanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 10, 10, 10),  new TitledBorder(
+                "INFORMACION MEDICA")));
+        internalPanel.add(panelCenter);
+        return internalPanel;
     }
 
 }
