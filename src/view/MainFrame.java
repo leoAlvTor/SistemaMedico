@@ -28,6 +28,8 @@ public class MainFrame extends JFrame {
         panelConsultas = new PanelConsultas();
 
         setPanelPacientes();
+
+        this.setLocationRelativeTo(null);
     }
 
     private JMenuBar setMenuBar(){
