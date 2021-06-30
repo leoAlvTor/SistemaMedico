@@ -1,8 +1,7 @@
 package view;
 
 import javax.swing.*;
-import java.net.URL;
-import java.util.Objects;
+import java.util.*;
 
 public class Main {
 
