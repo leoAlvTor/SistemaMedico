@@ -30,6 +30,8 @@ public class MainFrame extends JFrame {
         setPanelPacientes();
 
         this.setLocationRelativeTo(null);
+
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     private JMenuBar setMenuBar(){
