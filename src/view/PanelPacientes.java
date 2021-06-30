@@ -1,7 +1,10 @@
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import controller.PacienteController;
+import model.Paciente;
 import org.jdesktop.swingx.VerticalLayout;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -10,6 +13,12 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class PanelPacientes extends JPanel {
 
@@ -24,18 +33,39 @@ public class PanelPacientes extends JPanel {
     txtProcedencia, txtResidencia, txtDireccion, txtTelefono, txtCelular,
     txtEdad, txtPesoKG, txtTallaMT;
 
+    private JTextField autocomplete;
+
     private JTextArea txtAntecendetes;
     private JScrollPane jScrollPane;
 
     private JButton btnNuevo, btnGuardar, btnModificar, btnCancelar, btnSalir, btnBuscar;
 
+    // DATA FROM DB
+    private PacienteController pacienteController;
+
+    private Map<String, Paciente> nombre_apellidoPacienteMap;
+
     public PanelPacientes(){
+        pacienteController = new PacienteController();
+        nombre_apellidoPacienteMap = new HashMap<>();
+
         initLabels();
         initComboBox();
         initTextFields();
         initButtons();
 
         generateView();
+
+        loadData();
+    }
+
+    private void loadData(){
+        nombre_apellidoPacienteMap =
+                pacienteController.getAll().stream().collect(Collectors.toMap(Paciente::getNombresApellidos,
+                Function.identity(), (a, b) -> a));
+
+        AutoCompleteDecorator.decorate(autocomplete, nombre_apellidoPacienteMap.keySet().stream().toList(),
+                false);
     }
 
     private void initLabels(){
@@ -81,12 +111,14 @@ public class PanelPacientes extends JPanel {
         txtPesoKG = new JTextField("");
         txtTallaMT = new JTextField("");
         //txtAntecendetes = new JTextArea();
+        autocomplete = new JTextField(20);
     }
 
     private void initButtons(){
         btnNuevo = new JButton("NUEVO");
         btnGuardar = new JButton("GUARDAR");
         btnModificar = new JButton("MODIFICAR");
+        btnBuscar = new JButton("BUSCAR");
         btnCancelar = new JButton("CANCELAR");
         btnSalir = new JButton("SALIR");
         btnBuscar = new JButton("BUSCAR");
@@ -97,6 +129,7 @@ public class PanelPacientes extends JPanel {
         btnNuevo.addActionListener(e -> nuevoRegistro());
         btnGuardar.addActionListener(e -> guardarRegistro());
         btnModificar.addActionListener(e -> modificarRegistro());
+        btnBuscar.addActionListener(e-> buscarRegistro());
         btnCancelar.addActionListener(e -> cancelarRegistro());
         btnSalir.addActionListener(e -> salir());
         btnBuscar.addActionListener(e -> buscar());
@@ -112,6 +145,19 @@ public class PanelPacientes extends JPanel {
 
     private void modificarRegistro(){
 
+    }
+
+    private void buscarRegistro(){
+        var jPanel = new JPanel();
+        jPanel.setLayout(new GridLayout(1, 2));
+
+        jPanel.add(new JLabel("NOMBRES: "));
+
+        jPanel.add(autocomplete);
+
+        AutoCompleteDecorator.decorate(new JTextField(), new ArrayList<>(),true);
+
+        JOptionPane.showConfirmDialog(null, jPanel, "Buscar Ficha", JOptionPane.YES_NO_OPTION);
     }
 
     private void cancelarRegistro(){
@@ -149,6 +195,7 @@ public class PanelPacientes extends JPanel {
         panelSouth.add("btnNuevo", btnNuevo);
         panelSouth.add("btnGuardar", btnGuardar);
         panelSouth.add("btnModificar", btnModificar);
+        panelSouth.add("btnBuscar", btnBuscar);
         panelSouth.add("btnCancelar", btnCancelar);
         panelSouth.add("btnSalir", btnSalir);
 
