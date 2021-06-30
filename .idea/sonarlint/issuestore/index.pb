@@ -3,8 +3,6 @@ H
 src/META-INF/MANIFEST.MF,e\4\e4b1fd2293ba1e598e6bec4e0ee3b6b6851eb5a2
 L
 src/view/PanelConsultas.java,2\b\2bd21411e5bb0a81b3a5cca54d4aa6498b5acf09
-A
-SistemaMedico.iml,3\e\3e9e1dc451b4efce536221db6b70ea5486e5865e
 W
 '.idea/libraries/commons_dbutils_1_7.xml,b\f\bfb73111e1f4781c31d582a68fd6529a5dafd0f8
 P

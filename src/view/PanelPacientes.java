@@ -276,13 +276,12 @@ public class PanelPacientes extends JPanel {
                             JTextField jtf = (JTextField) field.get(this);
                             var field2 = paciente.getClass().getDeclaredField(field1.getName());
                             field2.setAccessible(true);
-                            jtf.setText((String) field2.get(paciente));
+                            jtf.setText(String.valueOf(field2.get(paciente)));
                             break;
                         }catch (Exception e){
-                            System.out.println("ERROR IN REFLECTION");
+                            System.out.println("ERROR IN REFLECTION: " + e);
                         }
-                    }else
-                        System.out.println("NO MATCH: " + field.getName() + "\t" + field1.getName());
+                    }
                 }
             }
         }
