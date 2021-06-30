@@ -26,14 +26,12 @@ public class PacienteController extends CRUD<Paciente> {
     public BigInteger createRecord(Object ... objects){
         try {
             ScalarHandler<BigInteger> scalarHandler = new ScalarHandler<>();
-            var runner = new QueryRunner();
             String insertSQL = "insert into paciente(CEDULA, NOMBRES, APELLIDOS, DIRECCION, TELEFONO, CELULAR," +
                     " ESTADOCIVIL, PROCEDENCIA, RESIDENCIA, FECHANACIMIENTO, GENERO, ANTECEDENTES, PESO, TALLA," +
                     " GRUPOSANGUINEO) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            return runner.insert(connection, insertSQL, scalarHandler, objects);
+            return new QueryRunner().insert(connection, insertSQL, scalarHandler, objects);
         }catch (Exception e){
-            System.out.println("ERROR: Error while creating record.");
+            System.out.println("ERROR: Error while creating record in PACIENTE.");
             return BigInteger.valueOf(-1);
         }
     }
@@ -82,9 +80,8 @@ public class PacienteController extends CRUD<Paciente> {
     @Override
     public int deleteRecord(Object id) {
         try {
-            QueryRunner runner = new QueryRunner();
             var sql = "delete from paciente where NUMEROFICHA = ?";
-            return runner.update(connection, sql, id);
+            return new QueryRunner().update(connection, sql, id);
         }catch (Exception e){
             return -1;
         }
@@ -107,7 +104,7 @@ public class PacienteController extends CRUD<Paciente> {
     public static void main(String[] args) throws Exception{
         PacienteController pacienteController = new PacienteController();
 
-        pacienteController.deleteRecord(2815);
+        //pacienteController.deleteRecord(2815);
 
         pacienteController.closeConnection();
     }
