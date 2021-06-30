@@ -1,5 +1,6 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
@@ -37,6 +38,12 @@ public class Cita {
 
     public GregorianCalendar getFecha() {
         return fecha;
+    }
+
+    public String getFechaAsString(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        simpleDateFormat.setCalendar(this.fecha);
+        return simpleDateFormat.format(this.fecha.getTime());
     }
 
     public void setFecha(GregorianCalendar fecha) {

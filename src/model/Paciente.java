@@ -115,6 +115,12 @@ public class Paciente {
         return fechaNacimiento;
     }
 
+    public String getFechaNacimientoAsString(){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        simpleDateFormat.setCalendar(this.fechaNacimiento);
+        return simpleDateFormat.format(fechaNacimiento.getTime());
+    }
+
     public GregorianCalendar setFechaNacimiento(String fechaNacimiento) {
         try {
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
