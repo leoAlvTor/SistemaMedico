@@ -9,9 +9,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Map;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -150,7 +149,7 @@ public class PanelPacientes extends JPanel {
                 JOptionPane.YES_NO_OPTION);
         autocomplete.requestFocus();
         if(seleccted == 0){
-            System.out.println(nombreApellidoPacienteMap.get(autocomplete.getText()));
+            mapObjectToFields(nombreApellidoPacienteMap.get(autocomplete.getText()));
         }
     }
 
@@ -266,6 +265,27 @@ public class PanelPacientes extends JPanel {
                 "INFORMACION MEDICA")));
         internalPanel.add(panelCenter);
         return internalPanel;
+    }
+
+    private void mapObjectToFields(Paciente paciente){
+        for(Field field : this.getClass().getDeclaredFields()){
+            if(field.getType().getName().contains("JTextField")){
+                for(Field field1 : paciente.getClass().getDeclaredFields()){
+                    if(field.getName().toUpperCase().contains(field1.getName().toUpperCase())){
+                        try {
+                            JTextField jtf = (JTextField) field.get(this);
+                            var field2 = paciente.getClass().getDeclaredField(field1.getName());
+                            field2.setAccessible(true);
+                            jtf.setText((String) field2.get(paciente));
+                            break;
+                        }catch (Exception e){
+                            System.out.println("ERROR IN REFLECTION");
+                        }
+                    }else
+                        System.out.println("NO MATCH: " + field.getName() + "\t" + field1.getName());
+                }
+            }
+        }
     }
 
 }
