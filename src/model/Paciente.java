@@ -63,6 +63,10 @@ public class Paciente {
         this.apellidos = apellidos;
     }
 
+    public String getNombresApellidos(){
+        return this.nombres + " " + this.apellidos;
+    }
+
     public String getDireccion() {
         return direccion;
     }
