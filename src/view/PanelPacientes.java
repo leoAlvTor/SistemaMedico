@@ -1,6 +1,5 @@
 package view;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import controller.PacienteController;
 import model.Paciente;
 import org.jdesktop.swingx.VerticalLayout;
@@ -8,13 +7,9 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Function;
@@ -41,13 +36,13 @@ public class PanelPacientes extends JPanel {
     private JButton btnNuevo, btnGuardar, btnModificar, btnCancelar, btnSalir, btnBuscar;
 
     // DATA FROM DB
-    private PacienteController pacienteController;
+    private final PacienteController pacienteController;
 
-    private Map<String, Paciente> nombre_apellidoPacienteMap;
+    private Map<String, Paciente> nombreApellidoPacienteMap;
 
     public PanelPacientes(){
         pacienteController = new PacienteController();
-        nombre_apellidoPacienteMap = new HashMap<>();
+        nombreApellidoPacienteMap = new HashMap<>();
 
         initLabels();
         initComboBox();
@@ -60,11 +55,11 @@ public class PanelPacientes extends JPanel {
     }
 
     private void loadData(){
-        nombre_apellidoPacienteMap =
+        nombreApellidoPacienteMap =
                 pacienteController.getAll().stream().collect(Collectors.toMap(Paciente::getNombresApellidos,
                 Function.identity(), (a, b) -> a));
 
-        AutoCompleteDecorator.decorate(autocomplete, nombre_apellidoPacienteMap.keySet().stream().toList(),
+        AutoCompleteDecorator.decorate(autocomplete, nombreApellidoPacienteMap.keySet().stream().toList(),
                 false);
     }
 
@@ -82,7 +77,6 @@ public class PanelPacientes extends JPanel {
         lblFechaNacimiento = new JLabel("FECHA NACIMIENTO:");
         lblEdad = new JLabel("EDAD:");
         lblEstadoCivil = new JLabel("ESTADO CIVIL:");
-        //lblAntecedentes = new JLabel("ANTECEDENTES:");
         lblPesoKG = new JLabel("PESO KG:");
         lblTallaMT = new JLabel("TALLA MT:");
         lblTipoSangre = new JLabel("TIPO SANGRE:");
@@ -110,7 +104,6 @@ public class PanelPacientes extends JPanel {
         txtEdad = new JTextField("");
         txtPesoKG = new JTextField("");
         txtTallaMT = new JTextField("");
-        //txtAntecendetes = new JTextArea();
         autocomplete = new JTextField(20);
     }
 
@@ -150,14 +143,15 @@ public class PanelPacientes extends JPanel {
     private void buscarRegistro(){
         var jPanel = new JPanel();
         jPanel.setLayout(new GridLayout(1, 2));
-
-        jPanel.add(new JLabel("NOMBRES: "));
-
+        jPanel.add(new JLabel("INGRESE EL NOMBRE: "));
         jPanel.add(autocomplete);
-
         AutoCompleteDecorator.decorate(new JTextField(), new ArrayList<>(),true);
-
-        JOptionPane.showConfirmDialog(null, jPanel, "Buscar Ficha", JOptionPane.YES_NO_OPTION);
+        int seleccted = JOptionPane.showConfirmDialog(null, jPanel, "Buscar Ficha",
+                JOptionPane.YES_NO_OPTION);
+        autocomplete.requestFocus();
+        if(seleccted == 0){
+            System.out.println(nombreApellidoPacienteMap.get(autocomplete.getText()));
+        }
     }
 
     private void cancelarRegistro(){

@@ -23,5 +23,3 @@ Q
 !src/model/PacienteTableModel.java,4\7\4776b59e788924170fe23d5e2e629c7929245c43
 M
 src/model/CitaTableModel.java,1\e\1e488786201f5d104ba3f89ac51963950e38f4b2
-G
-src/view/MainFrame.java,b\e\be6f60adfe6cd9d6729ebe990d77fefa2ff5226a
