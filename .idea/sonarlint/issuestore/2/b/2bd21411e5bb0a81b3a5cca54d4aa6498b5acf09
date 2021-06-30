@@ -1,0 +1,146 @@
+
+g	java:S117È"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Á—®Û
+l	java:S117Í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¹øÿÿÿÿ
+g	java:S117Õ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æ¾•
+g	java:S117å"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«©¨
+\
+java:S1128"ARemove this unused import 'org.jdesktop.swingx.HorizontalLayout'.(ƒ®ó”úÿÿÿÿ
+X
+java:S1128"=Remove this unused import 'com.formdev.flatlaf.FlatLightLaf'.(Äªóÿıÿÿÿÿ
+P
+java:S1128	":Remove this unused import 'javax.swing.border.LineBorder'.(¢è·¥
+p
+java:S1450"ZRemove the "jScrollPane" field and declare it as a local variable in the relevant methods.(·„ùº
+y
+java:S1450"cRemove the "jScrollPaneAnamnesis" field and declare it as a local variable in the relevant methods.(·„ùº
+v
+java:S1450"`Remove the "jScrollPaneReceta" field and declare it as a local variable in the relevant methods.(·„ùº
+t
+java:S1450"YRemove the "tabbedPane" field and declare it as a local variable in the relevant methods.(ÖÁ¤¶ùÿÿÿÿ
+—
+java:S1186`"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(î›¥á
+œ
+java:S1186d"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÿ€µ¢ÿÿÿÿÿ
+œ
+java:S1186h"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ã­áßşÿÿÿÿ
+–
+java:S1186l"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ø›ûx
+œ
+java:S1186p"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¦„Ìûùÿÿÿÿ
+–
+java:S1186t"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ˆ›§C
+<
+java:S1659"&Declare "lblFecha" on a separate line.(â„ûÒ
+=
+java:S1659"'Declare "lblCodigo" on a separate line.(â„ûÒ
+@
+java:S1659"*Declare "lblApellidos" on a separate line.(â„ûÒ
+=
+java:S1659"'Declare "lblNombre" on a separate line.(â„ûÒ
+;
+java:S1659"%Declare "lblEdad" on a separate line.(â„ûÒ
+B
+java:S1659"'Declare "lblGenero" on a separate line.(ä›ıåıÿÿÿÿ
+F
+java:S1659"+Declare "lblResidencia" on a separate line.(ä›ıåıÿÿÿÿ
+G
+java:S1659",Declare "lblProcedencia" on a separate line.(ä›ıåıÿÿÿÿ
+E
+java:S1659"*Declare "lblAnamnesis" on a separate line.(ä›ıåıÿÿÿÿ
+D
+java:S1659")Declare "lblExamenes" on a separate line.(ä›ıåıÿÿÿÿ
+G
+java:S1659",Declare "lblDiagnostico" on a separate line.(ä›ıåıÿÿÿÿ
+B
+java:S1659"'Declare "lblReceta" on a separate line.(ä›ıåıÿÿÿÿ
+<
+java:S1659"&Declare "txtFecha" on a separate line.(‰Î•ì
+=
+java:S1659"'Declare "txtCodigo" on a separate line.(‰Î•ì
+?
+java:S1659")Declare "txtApellido" on a separate line.(‰Î•ì
+=
+java:S1659"'Declare "txtNombre" on a separate line.(‰Î•ì
+;
+java:S1659"%Declare "txtEdad" on a separate line.(‰Î•ì
+B
+java:S1659"'Declare "txtGenero" on a separate line.(á›¸œıÿÿÿÿ
+F
+java:S1659"+Declare "txtResidencia" on a separate line.(á›¸œıÿÿÿÿ
+G
+java:S1659",Declare "txtProcedencia" on a separate line.(á›¸œıÿÿÿÿ
+B
+java:S1659"'Declare "txtExamen" on a separate line.(á›¸œıÿÿÿÿ
+G
+java:S1659",Declare "txtDiagnostico" on a separate line.(á›¸œıÿÿÿÿ
+@
+java:S1659"*Declare "txtHistorial" on a separate line.(‰½Â¹
+@
+java:S1659"*Declare "txtAnamnesis" on a separate line.(‰½Â¹
+E
+java:S1659"/Declare "jScrollPaneReceta" on a separate line.(·„ùº
+H
+java:S1659"2Declare "jScrollPaneAnamnesis" on a separate line.(·„ùº
+>
+java:S1659"(Declare "btnGuardar" on a separate line.(¤‘Ù’
+?
+java:S1659")Declare "btnCancelar" on a separate line.(¤‘Ù’
+?
+java:S1659")Declare "btnImprimir" on a separate line.(¤‘Ù’
+<
+java:S1659"&Declare "btnSalir" on a separate line.(¤‘Ù’
+=
+java:S1659"'Declare "btnBuscar" on a separate line.(¤‘Ù’
+V	java:S125""<This block of commented-out lines of code should be removed.(·àİâûÿÿÿÿ
+J
+java:S6212y"/Declare this local variable with "var" instead.(ËêÃ–ıÿÿÿÿ
+F
+java:S6212„"/Declare this local variable with "var" instead.(²Ú‘
+K
+java:S6212†"/Declare this local variable with "var" instead.(à·é»ùÿÿÿÿ
+K
+java:S6212‹"/Declare this local variable with "var" instead.(Ğß…™ÿÿÿÿÿ
+F
+java:S6212"/Declare this local variable with "var" instead.(Ìçå‡
+K
+java:S6212£"/Declare this local variable with "var" instead.(äÉğîşÿÿÿÿ
+F
+java:S6212¥"/Declare this local variable with "var" instead.(şÑ³±
+x
+java:S3252¸"\Use static access with "javax.swing.ScrollPaneConstants" for "VERTICAL_SCROLLBAR_AS_NEEDED".(âö‡—øÿÿÿÿ
+z
+java:S3252¹"^Use static access with "javax.swing.ScrollPaneConstants" for "HORIZONTAL_SCROLLBAR_AS_NEEDED".(çÈ¶‹ıÿÿÿÿ
+K
+java:S6212»"/Declare this local variable with "var" instead.(í¡úÿÿÿÿ
+F
+java:S6212Á"/Declare this local variable with "var" instead.(ÆÕÑ™
+E
+java:S6212Ã"/Declare this local variable with "var" instead.(Ñï’
+F
+java:S6212È"/Declare this local variable with "var" instead.(Á—®Û
+K
+java:S6212É"/Declare this local variable with "var" instead.(à·é»ùÿÿÿÿ
+K
+java:S6212Í"/Declare this local variable with "var" instead.(¹øÿÿÿÿ
+x
+java:S3252Ğ"\Use static access with "javax.swing.ScrollPaneConstants" for "VERTICAL_SCROLLBAR_AS_NEEDED".(™Õ­Éùÿÿÿÿ
+z
+java:S3252Ñ"^Use static access with "javax.swing.ScrollPaneConstants" for "HORIZONTAL_SCROLLBAR_AS_NEEDED".(çÈ¶‹ıÿÿÿÿ
+F
+java:S6212Õ"/Declare this local variable with "var" instead.(Æ¾•
+F
+java:S6212Ö"/Declare this local variable with "var" instead.(ãë‹ø
+F
+java:S6212å"/Declare this local variable with "var" instead.(«©¨
+x
+java:S3252è"\Use static access with "javax.swing.ScrollPaneConstants" for "VERTICAL_SCROLLBAR_AS_NEEDED".(Èòœİüÿÿÿÿ
+z
+java:S3252é"^Use static access with "javax.swing.ScrollPaneConstants" for "HORIZONTAL_SCROLLBAR_AS_NEEDED".(çÈ¶‹ıÿÿÿÿ
+F
+java:S6212ï"/Declare this local variable with "var" instead.(¥ıÍ©
+B
+java:S1068",Remove this unused "lblFecha" private field.(â„ûÒ
+B
+java:S1068",Remove this unused "txtFecha" private field.(‰Î•ì
+P
+java:S1144W"5Remove this unused private "asignarFunciones" method.(âÊÜúÿÿÿÿ
