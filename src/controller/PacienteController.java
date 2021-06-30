@@ -101,12 +101,4 @@ public class PacienteController extends CRUD<Paciente> {
         }
     }
 
-    public static void main(String[] args) throws Exception{
-        PacienteController pacienteController = new PacienteController();
-
-        //pacienteController.deleteRecord(2815);
-
-        pacienteController.closeConnection();
-    }
-
 }
