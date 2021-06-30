@@ -1,16 +1,8 @@
 
 H
 src/META-INF/MANIFEST.MF,e\4\e4b1fd2293ba1e598e6bec4e0ee3b6b6851eb5a2
-G
-src/view/MainFrame.java,b\e\be6f60adfe6cd9d6729ebe990d77fefa2ff5226a
-C
-src/model/Cita.java,5\5\55991e90191733b8df94e02e9b9745d98046fa6b
-B
-src/view/Main.java,6\a\6a797d831c147f047b4dda41944e9e0bc35e26a4
 L
 src/view/PanelConsultas.java,2\b\2bd21411e5bb0a81b3a5cca54d4aa6498b5acf09
-L
-src/view/PanelPacientes.java,0\e\0e8c3a273fa9b121ec5ea4490981670886deeaf6
 A
 SistemaMedico.iml,3\e\3e9e1dc451b4efce536221db6b70ea5486e5865e
 W
@@ -19,5 +11,17 @@ P
  .idea/libraries/flatlaf_1_22.xml,9\e\9e39048d3034c51460eb013a7e85f612b02e1c5b
 _
 /.idea/libraries/mysql_connector_java_8_0_25.xml,f\0\f0f166c9e6a3b58a436fc2a8f2bc7a43f55e31fb
+R
+"src/controller/CitaController.java,9\2\9200f57c96fad4b5bd2da34eb476ea137f85caa0
+H
+src/controller/CRUD.java,d\6\d6ea1f155b53792e4b5058e1b9e1efc5fcf496b4
+P
+ src/controller/DBConnection.java,2\d\2d34fd362d7bdd290a8b35701ea362f67920bfa3
+C
+src/model/Cita.java,5\5\55991e90191733b8df94e02e9b9745d98046fa6b
+Q
+!src/model/PacienteTableModel.java,4\7\4776b59e788924170fe23d5e2e629c7929245c43
+M
+src/model/CitaTableModel.java,1\e\1e488786201f5d104ba3f89ac51963950e38f4b2
 G
-src/model/Paciente.java,1\7\17528e338f17bb2014cf359cd42d201dc2def472
+src/view/MainFrame.java,b\e\be6f60adfe6cd9d6729ebe990d77fefa2ff5226a
