@@ -129,7 +129,7 @@ public class PacienteTableModel extends AbstractTableModel {
             case 9:
                 return paciente.getResidencia();
             case 10:
-                return paciente.getFechaNacimientoAsString();
+                return paciente.getFechaNacimiento();
             case 11:
                 return paciente.getGenero();
             case 12:
