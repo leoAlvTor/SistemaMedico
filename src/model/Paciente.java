@@ -17,7 +17,7 @@ public class Paciente {
     private String estadoCivil;
     private String procedencia;
     private String residencia;
-    private GregorianCalendar fechaNacimiento;
+    private String fechaNacimiento;
     private String genero;
     private String antecedentes;
     private double peso;
@@ -27,7 +27,7 @@ public class Paciente {
     private List<Cita> citas;
 
     public Paciente(){
-        fechaNacimiento = new GregorianCalendar();
+        fechaNacimiento = new String();
         citas = new ArrayList<>();
     }
 
@@ -60,6 +60,7 @@ public class Paciente {
     }
 
     public void setApellidos(String apellidos) {
+        System.out.println("APELLIDOS:" + apellidos);
         this.apellidos = apellidos;
     }
 
@@ -115,26 +116,28 @@ public class Paciente {
         this.residencia = residencia;
     }
 
-    public GregorianCalendar getFechaNacimiento() {
+    public String getFechaNacimiento() {
+
         return fechaNacimiento;
     }
 
-    public String getFechaNacimientoAsString(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        simpleDateFormat.setCalendar(this.fechaNacimiento);
-        return simpleDateFormat.format(fechaNacimiento.getTime());
+    public Date getFechaNacimientoAsDate(){
+        if(this.fechaNacimiento.contains(" "))
+            this.fechaNacimiento = this.fechaNacimiento.split(" ")[0];
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            simpleDateFormat.parse(this.fechaNacimiento);
+            return simpleDateFormat.parse(this.fechaNacimiento);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Date();
+        }
     }
 
-    public GregorianCalendar setFechaNacimiento(String fechaNacimiento) {
-        try {
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = dateFormat.parse(fechaNacimiento);
-            this.fechaNacimiento.setTime(date);
-            return this.fechaNacimiento;
-        }catch (Exception e){
-            this.fechaNacimiento.setTime(new Date());
-            return this.fechaNacimiento;
-        }
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+        System.out.println("SETTING FECHA: " + fechaNacimiento);
+
     }
 
     public String getGenero() {
@@ -258,7 +261,7 @@ public class Paciente {
                 ", estadoCivil='" + estadoCivil + '\'' +
                 ", procedencia='" + procedencia + '\'' +
                 ", residencia='" + residencia + '\'' +
-                ", fechaNacimiento=" + fechaNacimiento +
+                ", fechaNacimiento=" + getFechaNacimiento() +
                 ", genero='" + genero + '\'' +
                 ", antecedentes='" + antecedentes + '\'' +
                 ", peso=" + peso +
