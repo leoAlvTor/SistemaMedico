@@ -38,9 +38,6 @@ public class PanelPacientes extends JPanel {
 
     private JTextField autocomplete;
 
-    private JTextArea txtAntecendetes;
-    private JScrollPane jScrollPane;
-
     private JButton btnNuevo, btnGuardar, btnModificar, btnCancelar, btnSalir, btnBuscar;
 
     // DATA FROM DB
@@ -144,7 +141,8 @@ public class PanelPacientes extends JPanel {
     }
 
     private void nuevoRegistro(){
-
+        Paciente paciente = mapFieldsToObject();
+        System.out.println(paciente);
     }
 
     private void guardarRegistro(){
@@ -259,12 +257,6 @@ public class PanelPacientes extends JPanel {
         gridLayout.setColumns(2);
         gridLayout.setRows(4);
 
-        //panelCenter.add(lblAntecedentes);
-
-        //jScrollPane = new JScrollPane(txtAntecendetes, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-        //        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        //panelCenter.add(jScrollPane);
         panelCenter.add(lblPesoKG);
         panelCenter.add(txtPesoKG);
         panelCenter.add(lblTallaMT);
@@ -300,15 +292,45 @@ public class PanelPacientes extends JPanel {
                 }
             }
         }
-        System.out.println("ANTES");
         LocalDate localDate = LocalDate.ofInstant(paciente.getFechaNacimientoAsDate().toInstant(), ZoneId.of("America" +
                 "/Guayaquil"));
         fechaNacimiento.setDate(localDate);
-        System.out.println(paciente.getFechaNacimiento());
-        System.out.println("DESPUES");
         this.comboBoxEstadoCivil.setSelectedItem(paciente.getEstadoCivil().toUpperCase());
         this.comboBoxTipoSange.setSelectedItem(paciente.getGrupoSanguineo().replace(" ", "")
                 .toLowerCase());
 
     }
+
+    private Paciente mapFieldsToObject(){
+        var paciente = new Paciente();
+        for(Field field : this.getClass().getDeclaredFields()){
+            if(field.getType().getName().contains("JTextField")){
+                for(Field fieldPaciente : paciente.getClass().getDeclaredFields()){
+                    if(field.getName().toUpperCase().contains(fieldPaciente.getName().toUpperCase())){
+                        try{
+                            var reflectedField = paciente.getClass().getDeclaredField(fieldPaciente.getName());
+                            reflectedField.setAccessible(true);
+                            if(fieldPaciente.getType().getName().contains("double")){
+                                reflectedField.set(paciente, Double.valueOf(((JTextField)field.get(this)).getText()));
+                            }else if(fieldPaciente.getType().getName().contains("int")){
+                                reflectedField.set(paciente, Integer.valueOf(((JTextField)field.get(this)).getText()));
+                            }else{
+                                reflectedField.set(paciente, ((JTextField)field.get(this)).getText());
+                            }
+                            break;
+                        }catch (Exception e){
+                            System.out.println("ERROR: Reflection error: " + e);
+                        }
+                    }
+                }
+            }
+        }
+        paciente.setGenero(String.valueOf(this.comboBoxGenero.getSelectedItem()));
+        paciente.setFechaNacimiento(this.fechaNacimiento.getText());
+        paciente.setEstadoCivil(String.valueOf(this.comboBoxEstadoCivil.getSelectedItem()));
+        paciente.setGrupoSanguineo(String.valueOf(this.comboBoxTipoSange.getSelectedItem()));
+
+        return paciente;
+    }
+
 }
