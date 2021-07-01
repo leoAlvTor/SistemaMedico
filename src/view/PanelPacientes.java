@@ -1,5 +1,7 @@
 package view;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import controller.PacienteController;
 import model.Paciente;
 import org.jdesktop.swingx.VerticalLayout;
@@ -10,6 +12,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAccessor;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -26,6 +33,8 @@ public class PanelPacientes extends JPanel {
     private JTextField txtNumeroFicha, txtCedula, txtApellidos, txtNombres,
     txtProcedencia, txtResidencia, txtDireccion, txtTelefono, txtCelular,
     txtEdad, txtPesoKG, txtTallaMT;
+
+    private DatePicker fechaNacimiento;
 
     private JTextField autocomplete;
 
@@ -114,6 +123,13 @@ public class PanelPacientes extends JPanel {
         btnCancelar = new JButton("CANCELAR");
         btnSalir = new JButton("SALIR");
         btnBuscar = new JButton("BUSCAR");
+
+        Locale locale = new Locale("es", "ES");
+        DatePickerSettings settings = new DatePickerSettings(locale);
+        settings.setSizeTextFieldMinimumWidth(125);
+        fechaNacimiento = new DatePicker(settings);
+        fechaNacimiento.setDateToToday();
+
         asignarFunciones();
     }
 
@@ -144,7 +160,6 @@ public class PanelPacientes extends JPanel {
         jPanel.setLayout(new GridLayout(1, 2));
         jPanel.add(new JLabel("INGRESE EL NOMBRE: "));
         jPanel.add(autocomplete);
-        AutoCompleteDecorator.decorate(new JTextField(), new ArrayList<>(),true);
         int seleccted = JOptionPane.showConfirmDialog(null, jPanel, "Buscar Ficha",
                 JOptionPane.YES_NO_OPTION);
         autocomplete.requestFocus();
@@ -227,7 +242,7 @@ public class PanelPacientes extends JPanel {
         jPanelNorth.add(lblCelular);
         jPanelNorth.add(txtCelular);
         jPanelNorth.add(lblFechaNacimiento);
-        jPanelNorth.add(new JLabel("NULL"));
+        jPanelNorth.add(fechaNacimiento);
         jPanelNorth.add(lblEdad);
         jPanelNorth.add(txtEdad);
         jPanelNorth.add(lblEstadoCivil);
@@ -285,6 +300,15 @@ public class PanelPacientes extends JPanel {
                 }
             }
         }
-    }
+        System.out.println("ANTES");
+        LocalDate localDate = LocalDate.ofInstant(paciente.getFechaNacimientoAsDate().toInstant(), ZoneId.of("America" +
+                "/Guayaquil"));
+        fechaNacimiento.setDate(localDate);
+        System.out.println(paciente.getFechaNacimiento());
+        System.out.println("DESPUES");
+        this.comboBoxEstadoCivil.setSelectedItem(paciente.getEstadoCivil().toUpperCase());
+        this.comboBoxTipoSange.setSelectedItem(paciente.getGrupoSanguineo().replace(" ", "")
+                .toLowerCase());
 
+    }
 }
