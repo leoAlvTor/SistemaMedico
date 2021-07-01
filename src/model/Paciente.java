@@ -60,7 +60,6 @@ public class Paciente {
     }
 
     public void setApellidos(String apellidos) {
-        System.out.println("APELLIDOS:" + apellidos);
         this.apellidos = apellidos;
     }
 
@@ -136,8 +135,6 @@ public class Paciente {
 
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
-        System.out.println("SETTING FECHA: " + fechaNacimiento);
-
     }
 
     public String getGenero() {
