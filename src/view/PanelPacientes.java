@@ -18,6 +18,7 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAccessor;
 import java.util.*;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,7 @@ public class PanelPacientes extends JPanel {
     private JButton btnNuevo, btnGuardar, btnModificar, btnCancelar, btnSalir, btnBuscar;
 
     // DATA FROM DB
-    private final PacienteController pacienteController;
+    public final PacienteController pacienteController;
 
     private Map<String, Paciente> nombreApellidoPacienteMap;
 
@@ -96,7 +97,7 @@ public class PanelPacientes extends JPanel {
     }
 
     private void initTextFields(){
-        txtNumeroFicha = new JTextField("");
+        txtNumeroFicha = new JTextField(String.valueOf(pacienteController.getNextIndex()));
         txtNumeroFicha.setEditable(false);
         txtCedula = new JTextField("");
         txtApellidos = new JTextField("");
@@ -131,7 +132,7 @@ public class PanelPacientes extends JPanel {
     }
 
     private void asignarFunciones(){
-        btnNuevo.addActionListener(e -> nuevoRegistro());
+        btnNuevo.addActionListener(e -> nuevoRegistro(this.getComponents()));
         btnGuardar.addActionListener(e -> guardarRegistro());
         btnModificar.addActionListener(e -> modificarRegistro());
         btnBuscar.addActionListener(e-> buscarRegistro());
@@ -140,13 +141,36 @@ public class PanelPacientes extends JPanel {
         btnBuscar.addActionListener(e -> buscar());
     }
 
-    private void nuevoRegistro(){
-        Paciente paciente = mapFieldsToObject();
-        System.out.println(paciente);
+    private void nuevoRegistro(Component[] componentParam){
+        for(Component component : componentParam)
+            if(component.getClass().getName().contains("JPanel"))
+                nuevoRegistro(((JPanel) component).getComponents());
+            else
+                switch (component.getClass().getName()){
+                    case "javax.swing.JTextField":
+                        ((JTextField)component).setText("");
+                        break;
+                    case "javax.swing.JComboBox":
+                        ((JComboBox)component).setSelectedIndex(0);
+                        break;
+                    case "javax.swing.JTextArea":
+                        ((JTextArea)component).setText("");
+                        break;
+                    default:
+                        break;
+                }
     }
 
     private void guardarRegistro(){
-
+        Paciente paciente = mapFieldsToObject();
+        if(pacienteController.createRecord(paciente.toList()).intValue() > 0){
+            JOptionPane.showMessageDialog(null, "Se ha guardado el registro correctamente.",
+                    "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(null, "Error al crear el nuevo registro.", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        System.out.println(paciente);
     }
 
     private void modificarRegistro(){
@@ -326,7 +350,7 @@ public class PanelPacientes extends JPanel {
             }
         }
         paciente.setGenero(String.valueOf(this.comboBoxGenero.getSelectedItem()));
-        paciente.setFechaNacimiento(this.fechaNacimiento.getText());
+        paciente.setFechaFromLocal(this.fechaNacimiento.getDate());
         paciente.setEstadoCivil(String.valueOf(this.comboBoxEstadoCivil.getSelectedItem()));
         paciente.setGrupoSanguineo(String.valueOf(this.comboBoxTipoSange.getSelectedItem()));
 
