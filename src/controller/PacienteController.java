@@ -5,13 +5,11 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
-import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
+import javax.swing.*;
 import java.math.BigInteger;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.*;
 
 public class PacienteController extends CRUD<Paciente> {
@@ -19,7 +17,26 @@ public class PacienteController extends CRUD<Paciente> {
     private Connection connection;
 
     public PacienteController(){
-        this.connection = DBConnection.getConnection();
+        connect();
+    }
+
+    private void connect() {
+        connection = DBConnection.getConnection();
+        if (Objects.isNull(connection)){
+            JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos.",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+            connect();
+        }
+    }
+
+    public int getNextIndex(){
+        ResultSetHandler<Integer> resultSetHandler = new BeanHandler<>(Integer.class);
+        try{
+            return new QueryRunner().query(connection, "select max(NUMEROFICHA)+1 from paciente", resultSetHandler);
+        }catch (Exception e){
+            System.out.println("ERROR: Error while getting next Paciente index: " + e.getMessage());
+            return -1;
+        }
     }
 
     @Override
@@ -100,5 +117,4 @@ public class PacienteController extends CRUD<Paciente> {
             return false;
         }
     }
-
 }
