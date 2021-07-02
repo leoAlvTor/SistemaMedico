@@ -1,6 +1,7 @@
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import controller.CitaController;
 import org.jdesktop.swingx.HorizontalLayout;
 import org.jdesktop.swingx.VerticalLayout;
 
@@ -25,7 +26,11 @@ public class PanelConsultas extends JPanel {
 
     private JButton btnNuevo, btnGuardar, btnCancelar, btnImprimir, btnSalir, btnBuscar;
 
+    public CitaController citaController;
+
     public PanelConsultas(){
+        citaController = new CitaController();
+
         initLabels();
         initTextFields();
         initButtons();
