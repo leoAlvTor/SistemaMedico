@@ -19,9 +19,16 @@ public class CitaController extends CRUD<Cita>{
     private Connection connection;
 
     public CitaController(){
+        connect();
+    }
+
+    private void connect() {
         connection = DBConnection.getConnection();
-        if(Objects.isNull(connection))
-            JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos.");
+        if (Objects.isNull(connection)){
+            JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos.",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+            connect();
+        }
     }
 
     @Override
@@ -94,6 +101,20 @@ public class CitaController extends CRUD<Cita>{
         }catch (Exception e){
             System.out.println("ERROR: Error while deleting Cita record with id: " + id);
             return -1;
+        }
+    }
+
+    public boolean closeConnection(){
+        try{
+            if (!Objects.isNull(this.connection) && !this.connection.isClosed()) {
+                this.connection.close();
+                return true;
+            }else{
+                return false;
+            }
+        }catch (Exception e){
+            System.out.println("ERROR: Error while closing the connection.");
+            return false;
         }
     }
 }
