@@ -1,9 +1,0 @@
-
-F
-java:S1659"+Declare "itemConsultas" on a separate line.(Ô´üøÿÿÿÿ
-E
-java:S1874"/Remove this use of "install"; it is deprecated.(©¹´˜
-D
-java:S6212&"/Declare this local variable with "var" instead.(˜ªÑ
-Q	java:S1255"<This block of commented-out lines of code should be removed.(”Æß
-V	java:S125>"<This block of commented-out lines of code should be removed.(× ªÛüÿÿÿÿ
