@@ -3,6 +3,7 @@ package model;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Paciente {
@@ -128,13 +129,23 @@ public class Paciente {
             simpleDateFormat.parse(this.fechaNacimiento);
             return simpleDateFormat.parse(this.fechaNacimiento);
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println("ERROR: Error while parsing date: " + this.fechaNacimiento + ", ERROR: " + e.getMessage());
             return new Date();
         }
     }
 
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public void setFechaFromLocal(LocalDate local){
+        System.out.println("YEAR: " + local.getYear());
+        System.out.println("MONTH: " + local.getMonthValue());
+        System.out.println("DAY: " + local.getDayOfMonth());
+
+        this.fechaNacimiento =
+                local.getYear() + "-" + local.getMonthValue() + "-"
+                        + local.getDayOfMonth();
     }
 
     public String getGenero() {
