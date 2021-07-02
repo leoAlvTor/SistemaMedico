@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
 
 public class MainFrame extends JFrame {
 
@@ -67,4 +68,16 @@ public class MainFrame extends JFrame {
         this.repaint();
     }
 
+    private void disposeConnections(){
+        panelPacientes.pacienteController.closeConnection();
+        panelConsultas.citaController.closeConnection();
+    }
+
+    @Override
+    public void setDefaultCloseOperation(int operation) {
+        if(JOptionPane.showConfirmDialog(null, "", "", JOptionPane.OK_CANCEL_OPTION) == 0) {
+            disposeConnections();
+            super.setDefaultCloseOperation(operation);
+        }
+    }
 }
