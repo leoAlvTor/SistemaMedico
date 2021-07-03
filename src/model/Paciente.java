@@ -139,13 +139,7 @@ public class Paciente {
     }
 
     public void setFechaFromLocal(LocalDate local){
-        System.out.println("YEAR: " + local.getYear());
-        System.out.println("MONTH: " + local.getMonthValue());
-        System.out.println("DAY: " + local.getDayOfMonth());
-
-        this.fechaNacimiento =
-                local.getYear() + "-" + local.getMonthValue() + "-"
-                        + local.getDayOfMonth();
+        this.fechaNacimiento = local.getYear() + "-" + local.getMonthValue() + "-" + local.getDayOfMonth();
     }
 
     public String getGenero() {
