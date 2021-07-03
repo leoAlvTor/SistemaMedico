@@ -12,13 +12,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.ZoneId;
-import java.time.temporal.TemporalAccessor;
 import java.util.*;
-import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -97,7 +93,7 @@ public class PanelPacientes extends JPanel {
     }
 
     private void initTextFields(){
-        txtNumeroFicha = new JTextField(String.valueOf(pacienteController.getNextIndex()));
+        txtNumeroFicha = new JTextField("0");
         txtNumeroFicha.setEditable(false);
         txtCedula = new JTextField("");
         txtApellidos = new JTextField("");
@@ -118,7 +114,7 @@ public class PanelPacientes extends JPanel {
         btnGuardar = new JButton("GUARDAR");
         btnModificar = new JButton("MODIFICAR");
         btnBuscar = new JButton("BUSCAR");
-        btnCancelar = new JButton("CANCELAR");
+        btnCancelar = new JButton("ELIMINAR");
         btnSalir = new JButton("SALIR");
         btnBuscar = new JButton("BUSCAR");
 
@@ -138,7 +134,6 @@ public class PanelPacientes extends JPanel {
         btnBuscar.addActionListener(e-> buscarRegistro());
         btnCancelar.addActionListener(e -> cancelarRegistro());
         btnSalir.addActionListener(e -> salir());
-        btnBuscar.addActionListener(e -> buscar());
     }
 
     private void nuevoRegistro(Component[] componentParam){
@@ -162,19 +157,25 @@ public class PanelPacientes extends JPanel {
     }
 
     private void guardarRegistro(){
-        Paciente paciente = mapFieldsToObject();
+        var paciente = mapFieldsToObject();
         if(pacienteController.createRecord(paciente.toList()).intValue() > 0){
             JOptionPane.showMessageDialog(null, "Se ha guardado el registro correctamente.",
-                    "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                    "REGISTRO CREADO", JOptionPane.INFORMATION_MESSAGE);
         }else{
-            JOptionPane.showMessageDialog(null, "Error al crear el nuevo registro.", "ERROR",
+            JOptionPane.showMessageDialog(null, "Error al crear el nuevo registro.", "ERROR AL CREAR",
                     JOptionPane.ERROR_MESSAGE);
         }
-        System.out.println(paciente);
     }
 
     private void modificarRegistro(){
-
+        var paciente = mapFieldsToObject();
+        if(pacienteController.updateRecord(paciente.getNumeroFicha(), paciente.toList()) > 0){
+            JOptionPane.showMessageDialog(null, "Se ha actualizado el registro correctamente.", "REGISTRO ACTUALIZADO",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(null, "Error al actualizar el registro.", "ERROR AL MODIFICAR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void buscarRegistro(){
@@ -182,24 +183,25 @@ public class PanelPacientes extends JPanel {
         jPanel.setLayout(new GridLayout(1, 2));
         jPanel.add(new JLabel("INGRESE EL NOMBRE: "));
         jPanel.add(autocomplete);
-        int seleccted = JOptionPane.showConfirmDialog(null, jPanel, "Buscar Ficha",
+        int selected = JOptionPane.showConfirmDialog(null, jPanel, "Buscar Ficha",
                 JOptionPane.YES_NO_OPTION);
-        autocomplete.requestFocus();
-        if(seleccted == 0){
+
+        if(selected == 0){
             mapObjectToFields(nombreApellidoPacienteMap.get(autocomplete.getText()));
         }
     }
 
     private void cancelarRegistro(){
-
+        if(pacienteController.deleteRecord(txtNumeroFicha.getText()) > 0){
+            JOptionPane.showMessageDialog(null, "Se ha eliminado el registro correctamente.", "REGISTRO ELIMINADO",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }else
+            JOptionPane.showMessageDialog(null, "Error al eliminar el registro.", "ERROR AL ELIMINAR", JOptionPane.ERROR_MESSAGE);
     }
 
     private void salir(){
-
-    }
-
-    private void buscar(){
-
+        this.pacienteController.closeConnection();
+        System.exit(0);
     }
 
     private void generateView(){
@@ -319,9 +321,13 @@ public class PanelPacientes extends JPanel {
         LocalDate localDate = LocalDate.ofInstant(paciente.getFechaNacimientoAsDate().toInstant(), ZoneId.of("America" +
                 "/Guayaquil"));
         fechaNacimiento.setDate(localDate);
+
+        System.out.println(paciente.getEstadoCivil());
+        System.out.println(paciente.getGrupoSanguineo());
+
         this.comboBoxEstadoCivil.setSelectedItem(paciente.getEstadoCivil().toUpperCase());
         this.comboBoxTipoSange.setSelectedItem(paciente.getGrupoSanguineo().replace(" ", "")
-                .toLowerCase());
+                .toUpperCase());
 
     }
 
