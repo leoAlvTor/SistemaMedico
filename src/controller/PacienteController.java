@@ -41,18 +41,6 @@ public class PacienteController extends CRUD<Paciente> {
         }
     }
 
-    public Integer getNextIndex(){
-        ResultSetHandler<String> resultSetHandler = new BeanHandler<>(String.class);
-        try{
-            Object object = new QueryRunner().query(connection, "select max(NUMEROFICHA) from paciente", resultSetHandler);
-            System.out.println("OBJETO: " + object);
-            return 0;
-        }catch (Exception e){
-            System.out.println("ERROR: Error while getting next Paciente index: " + e.getMessage());
-            return -1;
-        }
-    }
-
     @Override
     public BigInteger createRecord(Object ... objects){
         try {
@@ -103,7 +91,7 @@ public class PacienteController extends CRUD<Paciente> {
                     "ANTECEDENTES = ?, PESO = ?, TALLA = ?, GRUPOSANGUINEO = ? where NUMEROFICHA = ?";
             return runner.update(connection, updateSQL, objects1);
         }catch (Exception e){
-            System.out.println("ERROR: Error while updating record with id: " + id);
+            System.out.println("ERROR: Error while updating record with id: " + id + ", " + e.getMessage());
             return -1;
         }
     }
