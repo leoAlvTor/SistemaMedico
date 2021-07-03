@@ -4,14 +4,14 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
 
 public class MainFrame extends JFrame {
 
     private final PanelPacientes panelPacientes;
     private final PanelConsultas panelConsultas;
 
-    private JMenuItem itemPacientes, itemConsultas;
+    private JMenuItem itemPacientes;
+    private JMenuItem itemConsultas;
 
     public MainFrame(){
         UIManager.put("MenuItem.selectionBackground",new Color(29, 108, 245));
@@ -75,9 +75,6 @@ public class MainFrame extends JFrame {
 
     @Override
     public void setDefaultCloseOperation(int operation) {
-        if(JOptionPane.showConfirmDialog(null, "", "", JOptionPane.OK_CANCEL_OPTION) == 0) {
-            disposeConnections();
-            super.setDefaultCloseOperation(operation);
-        }
+        super.setDefaultCloseOperation(operation);
     }
 }
