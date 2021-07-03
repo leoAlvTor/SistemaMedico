@@ -49,13 +49,14 @@ public class CitaController extends CRUD<Cita>{
             ScalarHandler<BigInteger> scalarHandler = new ScalarHandler<>();
             return new QueryRunner().insert(connection, sql, scalarHandler, objects);
         }catch (Exception e){
-            System.out.println("ERROR: Error while creating record in CITA");
+            System.out.println("ERROR: Error while creating record in CITA, " + e.getMessage());
             return BigInteger.valueOf(-1);
         }
     }
 
     @Override
     public Cita getRecordById(Object id) {
+        System.out.println("ID: " + id);
         ResultSetHandler<Cita> resultSetHandler = new BeanHandler<>(Cita.class);
         try{
             return new QueryRunner().query(connection, "select * from cita where NUMEROREGISTRO = ?",
@@ -72,7 +73,7 @@ public class CitaController extends CRUD<Cita>{
             BeanListHandler<Cita> beanListHandler = new BeanListHandler<>(Cita.class);
             return new QueryRunner().query(connection, "select * from cita", beanListHandler);
         }catch (Exception e){
-            System.out.println("ERROR: Error while getting all records from Cita");
+            System.out.println("ERROR: Error while getting all records from Cita, " + e.getMessage());
             return new ArrayList<>();
         }
     }
