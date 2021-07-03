@@ -1,14 +1,16 @@
 package model;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Objects;
 
 public class Cita {
 
     private int numeroRegistro;
     private int numeroFicha;
-    private GregorianCalendar fecha;
+    private String fecha;
     private String anamnesis;
     private String receta;
     private String diagnostico;
@@ -36,17 +38,12 @@ public class Cita {
         this.numeroFicha = numeroFicha;
     }
 
-    public GregorianCalendar getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public String getFechaAsString(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        simpleDateFormat.setCalendar(this.fecha);
-        return simpleDateFormat.format(this.fecha.getTime());
-    }
 
-    public void setFecha(GregorianCalendar fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -88,6 +85,18 @@ public class Cita {
 
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
+    }
+
+    public Object[] toList(){
+        List<Object> objectList = new ArrayList<>();
+        objectList.add(numeroFicha);
+        objectList.add(fecha);
+        objectList.add(anamnesis);
+        objectList.add(receta);
+        objectList.add(diagnostico);
+        objectList.add(examenes);
+
+        return objectList.toArray();
     }
 
     @Override
