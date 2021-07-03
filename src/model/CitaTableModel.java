@@ -20,6 +20,7 @@ public class CitaTableModel extends AbstractTableModel {
     }
 
     public CitaTableModel(List<Cita> citas){
+        super();
         this.citaList = citas;
     }
 
@@ -42,23 +43,21 @@ public class CitaTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Cita cita = citaList.get(rowIndex);
 
-        switch (columnIndex){
-            case 0:
-                return cita.getNumeroRegistro();
-            case 1:
-                return cita.getNumeroFicha();
-            case 2:
-                return cita.getFechaAsString();
-            case 3:
-                return cita.getAnamnesis();
-            case 4:
-                return cita.getReceta();
-            case 5:
-                return cita.getDiagnostico();
-            case 6:
-                return cita.getExamenes();
-            default:
-                return "";
-        }
+        return switch (columnIndex) {
+            case 0 -> cita.getNumeroRegistro();
+            case 1 -> cita.getNumeroFicha();
+            case 2 -> cita.getFecha();
+            case 3 -> cita.getAnamnesis();
+            case 4 -> cita.getReceta();
+            case 5 -> cita.getDiagnostico();
+            case 6 -> cita.getExamenes();
+            default -> "";
+        };
     }
+
+    @Override
+    public String getColumnName(int column){
+        return columnas[column];
+    }
+
 }
