@@ -9,10 +9,6 @@ _
 /.idea/libraries/mysql_connector_java_8_0_25.xml,f\0\f0f166c9e6a3b58a436fc2a8f2bc7a43f55e31fb
 H
 src/controller/CRUD.java,d\6\d6ea1f155b53792e4b5058e1b9e1efc5fcf496b4
-C
-src/model/Cita.java,5\5\55991e90191733b8df94e02e9b9745d98046fa6b
-M
-src/model/CitaTableModel.java,1\e\1e488786201f5d104ba3f89ac51963950e38f4b2
 P
  .idea/libraries/swingx_1_6_1.xml,a\d\ad2a95ddeb3d119de167eb89095070fa2c72e594
 :
@@ -30,3 +26,11 @@ Q
 !src/model/PacienteTableModel.java,4\7\4776b59e788924170fe23d5e2e629c7929245c43
 A
 SistemaMedico.iml,3\e\3e9e1dc451b4efce536221db6b70ea5486e5865e
+G
+src/view/MainFrame.java,b\e\be6f60adfe6cd9d6729ebe990d77fefa2ff5226a
+P
+ src/controller/DBConnection.java,2\d\2d34fd362d7bdd290a8b35701ea362f67920bfa3
+V
+&src/controller/PacienteController.java,c\d\cdb5f3e73f69bc09a9c8e5dc082c10e4349bb67b
+M
+src/model/CitaTableModel.java,1\e\1e488786201f5d104ba3f89ac51963950e38f4b2
