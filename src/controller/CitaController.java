@@ -22,12 +22,22 @@ public class CitaController extends CRUD<Cita>{
         connect();
     }
 
+    private int numberOfTries = 0;
     private void connect() {
         connection = DBConnection.getConnection();
-        if (Objects.isNull(connection)){
+        if (Objects.isNull(connection) && numberOfTries < 5){
             JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos.",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
+            numberOfTries++;
+            try {
+                Thread.sleep(500);
+            }catch (Exception e){
+                System.out.println("ERROR: Error while tring to sleep. " + e.getMessage());
+            }
             connect();
+        }else if(numberOfTries == 5){
+            JOptionPane.showMessageDialog(null, "Error no se pudo conectar a la base de datos.", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 

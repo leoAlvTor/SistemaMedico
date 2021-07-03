@@ -20,19 +20,33 @@ public class PacienteController extends CRUD<Paciente> {
         connect();
     }
 
+    private int numberOfTries = 1;
     private void connect() {
         connection = DBConnection.getConnection();
-        if (Objects.isNull(connection)){
-            JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos.",
+        if (Objects.isNull(connection) && numberOfTries <= 5){
+            JOptionPane.showMessageDialog(null,
+                    "Error al conectar con la base de datos, INTENTO NUMERO: " + numberOfTries,
                     "ERROR", JOptionPane.ERROR_MESSAGE);
+            numberOfTries++;
+            try {
+                Thread.sleep(500);
+            }catch (Exception e){
+                System.out.println("ERROR: Error while tring to sleep. " + e.getMessage());
+            }
             connect();
+        }else if(numberOfTries > 5){
+            JOptionPane.showMessageDialog(null, "Error no se pudo conectar a la base de datos.", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+            System.exit(-1);
         }
     }
 
-    public int getNextIndex(){
-        ResultSetHandler<Integer> resultSetHandler = new BeanHandler<>(Integer.class);
+    public Integer getNextIndex(){
+        ResultSetHandler<String> resultSetHandler = new BeanHandler<>(String.class);
         try{
-            return new QueryRunner().query(connection, "select max(NUMEROFICHA)+1 from paciente", resultSetHandler);
+            Object object = new QueryRunner().query(connection, "select max(NUMEROFICHA) from paciente", resultSetHandler);
+            System.out.println("OBJETO: " + object);
+            return 0;
         }catch (Exception e){
             System.out.println("ERROR: Error while getting next Paciente index: " + e.getMessage());
             return -1;
