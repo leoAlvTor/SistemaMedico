@@ -131,6 +131,13 @@ public class PanelConsultas extends JPanel {
     }
 
     private void nuevoRegistro(Component[] componentParam){
+        txtHistorial.setText("");
+        tablaHistorial.setModel(new CitaTableModel());
+        txtAnamnesis.setText("");
+        txtExamenes.setText("");
+        txtDiagnostico.setText("");
+        txtReceta.setText("");
+
         for(Component component : componentParam)
             if(component.getClass().getName().contains("JPanel"))
                 nuevoRegistro(((JPanel) component).getComponents());
@@ -160,7 +167,7 @@ public class PanelConsultas extends JPanel {
             JOptionPane.showMessageDialog(null, "Error al crear la consulta.", "ERROR AL CREAR",
                     JOptionPane.ERROR_MESSAGE);
         }
-
+        loadData();
     }
 
     private void cancelarRegistro(){
@@ -188,6 +195,7 @@ public class PanelConsultas extends JPanel {
 
             tablaHistorial.setModel(new CitaTableModel(citaController.getAllByPaciente(paciente.getNumeroFicha())));
         }
+        loadData();
     }
 
     private void generateView(){
@@ -199,6 +207,16 @@ public class PanelConsultas extends JPanel {
         this.add(getSouth());
 
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        txtNumeroFicha.setEditable(false);
+        txtApellidos.setEditable(false);
+        txtEdad.setEditable(false);
+        txtResidencia.setEditable(false);
+
+        txtCedula.setEditable(false);
+        txtNombres.setEditable(false);
+        txtGenero.setEditable(false);
+        txtProcedencia.setEditable(false);
     }
 
     private JPanel getNorth(){
@@ -378,6 +396,8 @@ public class PanelConsultas extends JPanel {
                 }
             }
         }
+        if(citaParam.getClass().getName().toUpperCase().contains("PACIENTE"))
+            this.txtEdad.setText(String.valueOf(((Paciente) citaParam).getEdad()));
     }
 
     private Cita mapFieldsToObject(){
