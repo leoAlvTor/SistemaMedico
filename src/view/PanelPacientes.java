@@ -165,6 +165,7 @@ public class PanelPacientes extends JPanel {
             JOptionPane.showMessageDialog(null, "Error al crear el nuevo registro.", "ERROR AL CREAR",
                     JOptionPane.ERROR_MESSAGE);
         }
+        loadData();
     }
 
     private void modificarRegistro(){
@@ -176,6 +177,7 @@ public class PanelPacientes extends JPanel {
             JOptionPane.showMessageDialog(null, "Error al actualizar el registro.", "ERROR AL MODIFICAR",
                     JOptionPane.ERROR_MESSAGE);
         }
+        loadData();
     }
 
     private void buscarRegistro(){
@@ -197,6 +199,7 @@ public class PanelPacientes extends JPanel {
                     JOptionPane.INFORMATION_MESSAGE);
         }else
             JOptionPane.showMessageDialog(null, "Error al eliminar el registro.", "ERROR AL ELIMINAR", JOptionPane.ERROR_MESSAGE);
+        loadData();
     }
 
     private void salir(){
@@ -321,14 +324,11 @@ public class PanelPacientes extends JPanel {
         LocalDate localDate = LocalDate.ofInstant(paciente.getFechaNacimientoAsDate().toInstant(), ZoneId.of("America" +
                 "/Guayaquil"));
         fechaNacimiento.setDate(localDate);
-
-        System.out.println(paciente.getEstadoCivil());
-        System.out.println(paciente.getGrupoSanguineo());
-
         this.comboBoxEstadoCivil.setSelectedItem(paciente.getEstadoCivil().toUpperCase());
         this.comboBoxTipoSange.setSelectedItem(paciente.getGrupoSanguineo().replace(" ", "")
                 .toUpperCase());
 
+        this.txtEdad.setText(String.valueOf(paciente.getEdad()));
     }
 
     private Paciente mapFieldsToObject(){
