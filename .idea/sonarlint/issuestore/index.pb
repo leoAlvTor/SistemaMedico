@@ -18,19 +18,17 @@ P
 -.idea/libraries/me_xdrop_fuzzywuzzy_1_3_1.xml,7\2\72d0d32761e57aef2e805c8e3a09298a480b450a
 `
 0.idea/libraries/mysql_connector_java_8_0_252.xml,e\5\e5647bf92db4a63207e50bbed44f71921260c2a5
-B
-src/view/Main.java,6\a\6a797d831c147f047b4dda41944e9e0bc35e26a4
 u
 E.idea/libraries/com_github_lgooddatepicker_LGoodDatePicker_11_2_1.xml,d\9\d901d1710163ba8782311601f417cec07dafb815
 Q
 !src/model/PacienteTableModel.java,4\7\4776b59e788924170fe23d5e2e629c7929245c43
 A
 SistemaMedico.iml,3\e\3e9e1dc451b4efce536221db6b70ea5486e5865e
-G
-src/view/MainFrame.java,b\e\be6f60adfe6cd9d6729ebe990d77fefa2ff5226a
 P
  src/controller/DBConnection.java,2\d\2d34fd362d7bdd290a8b35701ea362f67920bfa3
-V
-&src/controller/PacienteController.java,c\d\cdb5f3e73f69bc09a9c8e5dc082c10e4349bb67b
 M
 src/model/CitaTableModel.java,1\e\1e488786201f5d104ba3f89ac51963950e38f4b2
+G
+src/view/MainFrame.java,b\e\be6f60adfe6cd9d6729ebe990d77fefa2ff5226a
+R
+"src/controller/CitaController.java,9\2\9200f57c96fad4b5bd2da34eb476ea137f85caa0
