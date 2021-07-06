@@ -22,8 +22,6 @@ u
 E.idea/libraries/com_github_lgooddatepicker_LGoodDatePicker_11_2_1.xml,d\9\d901d1710163ba8782311601f417cec07dafb815
 Q
 !src/model/PacienteTableModel.java,4\7\4776b59e788924170fe23d5e2e629c7929245c43
-A
-SistemaMedico.iml,3\e\3e9e1dc451b4efce536221db6b70ea5486e5865e
 P
  src/controller/DBConnection.java,2\d\2d34fd362d7bdd290a8b35701ea362f67920bfa3
 M
