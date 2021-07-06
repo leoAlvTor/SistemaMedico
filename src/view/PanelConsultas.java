@@ -48,6 +48,7 @@ public class PanelConsultas extends JPanel {
     private Paciente paciente;
     private Map<String, Paciente> nombreApellidoPacienteMap;
     private List<Cita> citaList;
+    private int citaSeleccionadaID = -1;
 
     public PanelConsultas(){
         citaController = new CitaController();
@@ -114,7 +115,7 @@ public class PanelConsultas extends JPanel {
     private void initButtons(){
         btnNuevo = new JButton("NUEVO");
         btnGuardar = new JButton("GUARDAR");
-        btnCancelar = new JButton("CANCELAR");
+        btnCancelar = new JButton("ELIMINAR");
         btnSalir = new JButton("SALIR");
         btnBuscar = new JButton("BUSCAR");
         btnImprimir = new JButton("IMPRIMIR");
@@ -171,7 +172,27 @@ public class PanelConsultas extends JPanel {
     }
 
     private void cancelarRegistro(){
+        if(citaSeleccionadaID == -1) {
+            JOptionPane.showMessageDialog(null, "Debe selecionar un registro de la tabla antes de eliminarlo.",
+                    "Error al eliminar",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
+        if(JOptionPane.showConfirmDialog(null, "Desea eliminar el registro #"+citaSeleccionadaID+"?",
+                "Eliminar Registro", JOptionPane.YES_NO_OPTION) == 0) {
+            if (citaController.deleteRecord(citaSeleccionadaID) > 0) {
+                JOptionPane.showMessageDialog(null, "Se ha eliminado el registro correctamente.", "Se elimino el " +
+                        "registro", JOptionPane.INFORMATION_MESSAGE);
+                tablaHistorial.setModel(new CitaTableModel(citaController.getAllByPaciente(paciente.getNumeroFicha())));
+                loadData();
+                nuevoRegistro(this.getComponents());
+                citaSeleccionadaID = -1;
+            } else {
+                JOptionPane.showMessageDialog(null, "No se ha podido eliminar el registro seleccionado.", "Error al " +
+                        "eliminar una cita.", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private void imprimirRegistro(){
@@ -287,6 +308,7 @@ public class PanelConsultas extends JPanel {
                 var point = e.getPoint();
                 var row = table.rowAtPoint(point);
                 if(e.getClickCount() == 2 && table.getSelectedRow() != -1){
+                    citaSeleccionadaID = (int)table.getModel().getValueAt(row, 0);
                     var pacienteNombres =
                             pacienteController.getRecordById(table.getModel().getValueAt(row, 0)).getNombresApellidos();
                     var fecha = String.valueOf(table.getModel().getValueAt(row, 2));
@@ -294,7 +316,6 @@ public class PanelConsultas extends JPanel {
                     var receta = String.valueOf(table.getModel().getValueAt(row, 4));
                     var diagnostico = String.valueOf(table.getModel().getValueAt(row, 5));
                     var examenes = String.valueOf(table.getModel().getValueAt(row, 6));
-
                     txtHistorial.setText(String.format("""
                             PACIENTE:
                             %1$s
