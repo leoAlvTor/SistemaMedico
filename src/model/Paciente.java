@@ -1,5 +1,7 @@
 package model;
 
+import org.joda.time.Days;
+
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -235,6 +237,11 @@ public class Paciente {
         this.talla = Double.parseDouble(resultSet.getString(15));
         this.grupoSanguineo = resultSet.getString(16);
         return this;
+    }
+
+    public int getEdad(){
+        return Days.daysBetween(new org.joda.time.LocalDate(this.getFechaNacimientoAsDate()),
+                new org.joda.time.LocalDate(new Date())).getDays()/365;
     }
 
     @Override
