@@ -161,11 +161,11 @@ public class PanelPacientes extends JPanel {
             JOptionPane.showMessageDialog(null, "La cedula ingresada es incorrecta.", "Error al crear el registro",
                     JOptionPane.ERROR_MESSAGE);
             return false;
-        }else if(pacienteController.verifyIfIDExists(paciente.getCedula())){
+        }else if(!pacienteController.verifyIfIDExists(paciente.getCedula())){
             JOptionPane.showMessageDialog(null, "La cedula ingresada ya existe.", "Error al crear el registro",
                     JOptionPane.ERROR_MESSAGE);
             return false;
-        }else if(pacienteController.verifyIfNameAndLastNameExists(paciente.getNombres(), paciente.getApellidos())){
+        }else if(!pacienteController.verifyIfNameAndLastNameExists(paciente.getNombres(), paciente.getApellidos())){
             JOptionPane.showMessageDialog(null, "Los nombres y apellidos ingresados ya existen.", "Error al crear el " +
                     "registro", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -191,7 +191,7 @@ public class PanelPacientes extends JPanel {
 
     private void modificarRegistro(){
         var paciente = mapFieldsToObject();
-        if(!paciente.verifyID()){
+        if(paciente.verifyID()){
             JOptionPane.showMessageDialog(null, "La cedula ingresada es incorrecta.", "Error al crear el registro",
                     JOptionPane.ERROR_MESSAGE);
             return;
