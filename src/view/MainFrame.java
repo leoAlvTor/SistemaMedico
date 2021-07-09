@@ -5,9 +5,14 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class to contain JPanels.
+ */
 public class MainFrame extends JFrame {
 
+    // JPanel to contain Pacientes view.
     private final PanelPacientes panelPacientes;
+    // JPanel to contain Consultas view.
     private final PanelConsultas panelConsultas;
 
     private JMenuItem itemPacientes;
