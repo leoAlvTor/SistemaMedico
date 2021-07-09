@@ -12,7 +12,7 @@ import java.math.BigInteger;
 import java.sql.Connection;
 import java.util.*;
 
-public class PacienteController extends CRUD<Paciente> {
+public class PacienteController implements CRUD<Paciente> {
 
     private Connection connection;
 
