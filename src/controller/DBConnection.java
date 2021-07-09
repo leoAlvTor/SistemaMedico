@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 
 /**
  * Class for database connection.
+ *
+ * @version 1.0
+ * @author Leonardo Alvarado Torres
  */
 public class DBConnection {
     // Constructor.
