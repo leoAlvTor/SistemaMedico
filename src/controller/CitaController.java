@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CitaController extends CRUD<Cita>{
+public class CitaController implements CRUD<Cita>{
 
     private Connection connection;
 
