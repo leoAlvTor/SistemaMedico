@@ -18,15 +18,9 @@ P
 0.idea/libraries/mysql_connector_java_8_0_252.xml,e\5\e5647bf92db4a63207e50bbed44f71921260c2a5
 u
 E.idea/libraries/com_github_lgooddatepicker_LGoodDatePicker_11_2_1.xml,d\9\d901d1710163ba8782311601f417cec07dafb815
-Q
-!src/model/PacienteTableModel.java,4\7\4776b59e788924170fe23d5e2e629c7929245c43
-M
-src/model/CitaTableModel.java,1\e\1e488786201f5d104ba3f89ac51963950e38f4b2
 G
 src/view/MainFrame.java,b\e\be6f60adfe6cd9d6729ebe990d77fefa2ff5226a
 _
 /.idea/libraries/joda_time_joda_time_2_10_10.xml,a\9\a99a4d738725337b87a2aa5d122b0fe4476b8ba8
-A
-SistemaMedico.iml,3\e\3e9e1dc451b4efce536221db6b70ea5486e5865e
 L
 src/view/PanelPacientes.java,0\e\0e8c3a273fa9b121ec5ea4490981670886deeaf6
