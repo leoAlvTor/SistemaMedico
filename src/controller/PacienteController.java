@@ -176,4 +176,25 @@ public class PacienteController implements CRUD<Paciente> {
             return false;
         }
     }
+
+    public boolean verifyIfIDExists(String id){
+        try{
+            ResultSetHandler<Paciente> resultSetHandler = new BeanHandler<>(Paciente.class);
+            return new QueryRunner().query("select * from paciente where CEDULA = ?", resultSetHandler, id) == null;
+        }catch (Exception e){
+            System.out.println("ERROR: Error while getting record by its second id: " + id + ", " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean verifyIfNameAndLastNameExists(String name, String lastName){
+        try{
+            ResultSetHandler<Paciente> resultSetHandler = new BeanHandler<>(Paciente.class);
+            return new QueryRunner().query("select * from paciente where NOMBRES = ? and APELLIDOS = ?",
+                    resultSetHandler, name, lastName) == null;
+        }catch (Exception e){
+            System.out.println("ERROR: Error while getting records by its name: " + name + ", lastname: " + lastName + ", " + e.getMessage());
+            return false;
+        }
+    }
 }
