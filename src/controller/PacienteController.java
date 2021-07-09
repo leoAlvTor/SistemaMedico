@@ -180,7 +180,9 @@ public class PacienteController implements CRUD<Paciente> {
     public boolean verifyIfIDExists(String id){
         try{
             ResultSetHandler<Paciente> resultSetHandler = new BeanHandler<>(Paciente.class);
-            return new QueryRunner().query("select * from paciente where CEDULA = ?", resultSetHandler, id) == null;
+            Paciente paciente = new QueryRunner().query(connection, "select * from paciente where CEDULA = ?",
+                    resultSetHandler, id);
+            return paciente == null;
         }catch (Exception e){
             System.out.println("ERROR: Error while getting record by its second id: " + id + ", " + e.getMessage());
             return false;
@@ -190,7 +192,7 @@ public class PacienteController implements CRUD<Paciente> {
     public boolean verifyIfNameAndLastNameExists(String name, String lastName){
         try{
             ResultSetHandler<Paciente> resultSetHandler = new BeanHandler<>(Paciente.class);
-            return new QueryRunner().query("select * from paciente where NOMBRES = ? and APELLIDOS = ?",
+            return new QueryRunner().query(connection, "select * from paciente where NOMBRES = ? and APELLIDOS = ?",
                     resultSetHandler, name, lastName) == null;
         }catch (Exception e){
             System.out.println("ERROR: Error while getting records by its name: " + name + ", lastname: " + lastName + ", " + e.getMessage());
