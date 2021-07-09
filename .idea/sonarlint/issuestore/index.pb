@@ -7,8 +7,6 @@ P
  .idea/libraries/flatlaf_1_22.xml,9\e\9e39048d3034c51460eb013a7e85f612b02e1c5b
 _
 /.idea/libraries/mysql_connector_java_8_0_25.xml,f\0\f0f166c9e6a3b58a436fc2a8f2bc7a43f55e31fb
-H
-src/controller/CRUD.java,d\6\d6ea1f155b53792e4b5058e1b9e1efc5fcf496b4
 P
  .idea/libraries/swingx_1_6_1.xml,a\d\ad2a95ddeb3d119de167eb89095070fa2c72e594
 :
@@ -22,11 +20,17 @@ u
 E.idea/libraries/com_github_lgooddatepicker_LGoodDatePicker_11_2_1.xml,d\9\d901d1710163ba8782311601f417cec07dafb815
 Q
 !src/model/PacienteTableModel.java,4\7\4776b59e788924170fe23d5e2e629c7929245c43
-P
- src/controller/DBConnection.java,2\d\2d34fd362d7bdd290a8b35701ea362f67920bfa3
 M
 src/model/CitaTableModel.java,1\e\1e488786201f5d104ba3f89ac51963950e38f4b2
 G
 src/view/MainFrame.java,b\e\be6f60adfe6cd9d6729ebe990d77fefa2ff5226a
-R
-"src/controller/CitaController.java,9\2\9200f57c96fad4b5bd2da34eb476ea137f85caa0
+_
+/.idea/libraries/joda_time_joda_time_2_10_10.xml,a\9\a99a4d738725337b87a2aa5d122b0fe4476b8ba8
+A
+SistemaMedico.iml,3\e\3e9e1dc451b4efce536221db6b70ea5486e5865e
+G
+src/model/Paciente.java,1\7\17528e338f17bb2014cf359cd42d201dc2def472
+L
+src/view/PanelPacientes.java,0\e\0e8c3a273fa9b121ec5ea4490981670886deeaf6
+L
+src/view/PanelConsultas.java,2\b\2bd21411e5bb0a81b3a5cca54d4aa6498b5acf09
