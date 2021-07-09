@@ -156,8 +156,29 @@ public class PanelPacientes extends JPanel {
                 }
     }
 
+    private boolean verificarDatos(Paciente paciente){
+        if(!paciente.verifyID()){
+            JOptionPane.showMessageDialog(null, "La cedula ingresada es incorrecta.", "Error al crear el registro",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else if(pacienteController.verifyIfIDExists(paciente.getCedula())){
+            JOptionPane.showMessageDialog(null, "La cedula ingresada ya existe.", "Error al crear el registro",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else if(pacienteController.verifyIfNameAndLastNameExists(paciente.getNombres(), paciente.getApellidos())){
+            JOptionPane.showMessageDialog(null, "Los nombres y apellidos ingresados ya existen.", "Error al crear el " +
+                    "registro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     private void guardarRegistro(){
         var paciente = mapFieldsToObject();
+
+        if(!verificarDatos(paciente))
+            return;
         if(pacienteController.createRecord(paciente.toList()).intValue() > 0){
             JOptionPane.showMessageDialog(null, "Se ha guardado el registro correctamente.",
                     "REGISTRO CREADO", JOptionPane.INFORMATION_MESSAGE);
@@ -170,6 +191,11 @@ public class PanelPacientes extends JPanel {
 
     private void modificarRegistro(){
         var paciente = mapFieldsToObject();
+        if(!paciente.verifyID()){
+            JOptionPane.showMessageDialog(null, "La cedula ingresada es incorrecta.", "Error al crear el registro",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         if(pacienteController.updateRecord(paciente.getNumeroFicha(), paciente.toList()) > 0){
             JOptionPane.showMessageDialog(null, "Se ha actualizado el registro correctamente.", "REGISTRO ACTUALIZADO",
                     JOptionPane.INFORMATION_MESSAGE);
