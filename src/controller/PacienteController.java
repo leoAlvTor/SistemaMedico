@@ -12,15 +12,33 @@ import java.math.BigInteger;
 import java.sql.Connection;
 import java.util.*;
 
+/**
+ * Class for implement CRUD interface to Paciente model.
+ *
+ * @version 1.0
+ * @author Leonardo Alvarado Torres
+ */
 public class PacienteController implements CRUD<Paciente> {
 
+    // Global variable for database connection.
     private Connection connection;
 
+    /**
+     * Default constructor for PacienteController.
+     * Execute coonect method.
+     */
     public PacienteController(){
         connect();
     }
 
+    // Global variable to determine the number of connection tries.
     private int numberOfTries = 1;
+
+    /**
+     * Implements a method to connect to database, if some error occurs the method call itself (by recursion) to try
+     * to connect again until the number of tries reach to 5. The method wait 0.5 seconds.
+     * @since 1.0
+     */
     private void connect() {
         connection = DBConnection.getConnection();
         if (Objects.isNull(connection) && numberOfTries <= 5){
@@ -41,6 +59,13 @@ public class PacienteController implements CRUD<Paciente> {
         }
     }
 
+    /**
+     * Implements the override method form CRUD interface.
+     * Insert a new record into database using DBUtils.
+     *
+     * @param objects objects to being inserted into table.
+     * @return the number of records created else -1.
+     */
     @Override
     public BigInteger createRecord(Object ... objects){
         try {
@@ -55,6 +80,12 @@ public class PacienteController implements CRUD<Paciente> {
         }
     }
 
+    /**
+     * Get Paciente by its ID.
+     *
+     * @param id the ID of the record.
+     * @return a Paciente instance else return null.
+     */
     @Override
     public Paciente getRecordById(Object id) {
         ResultSetHandler<Paciente> resultSetHandler = new BeanHandler<>(Paciente.class);
@@ -67,6 +98,12 @@ public class PacienteController implements CRUD<Paciente> {
         }
     }
 
+    /**
+     * Implements the override method from CRUD interface.
+     * Get all records from Paciente table.
+     *
+     * @return a List of Paciente class else return an empty array.
+     */
     @Override
     public List<Paciente> getAll(){
         try {
@@ -79,6 +116,14 @@ public class PacienteController implements CRUD<Paciente> {
         }
     }
 
+    /**
+     * Implements the override method from CRUD interface.
+     * Update an existing record by its id.
+     *
+     * @param id represents the records id.
+     * @param objects an array of objects to update the record.
+     * @return the number of records updated else return -1.
+     */
     @Override
     public int updateRecord(Object id, Object ... objects) {
         Object[] objects1 = new Object[objects.length+1];
@@ -96,6 +141,13 @@ public class PacienteController implements CRUD<Paciente> {
         }
     }
 
+    /**
+     * Implements the override method from CRUD interface.
+     * Delete a record from Paciente table using its ID.
+     *
+     * @param id represents the id of object which is going to be deleted.
+     * @return the number of records deleted else return -1.
+     */
     @Override
     public int deleteRecord(Object id) {
         try {
@@ -106,6 +158,11 @@ public class PacienteController implements CRUD<Paciente> {
         }
     }
 
+    /**
+     * Defines a custom method to close database connection.
+     *
+     * @return true if connection was closed else false.
+     */
     public boolean closeConnection(){
         try {
             if (!Objects.isNull(this.connection) && !this.connection.isClosed()) {

@@ -28,9 +28,5 @@ _
 /.idea/libraries/joda_time_joda_time_2_10_10.xml,a\9\a99a4d738725337b87a2aa5d122b0fe4476b8ba8
 A
 SistemaMedico.iml,3\e\3e9e1dc451b4efce536221db6b70ea5486e5865e
-G
-src/model/Paciente.java,1\7\17528e338f17bb2014cf359cd42d201dc2def472
 L
 src/view/PanelPacientes.java,0\e\0e8c3a273fa9b121ec5ea4490981670886deeaf6
-L
-src/view/PanelConsultas.java,2\b\2bd21411e5bb0a81b3a5cca54d4aa6498b5acf09
