@@ -8,6 +8,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * Class for Paciente model.
+ *
+ * @author Leonardo Alvarado
+ */
 public class Paciente {
 
     private int numeroFicha;
@@ -123,6 +128,11 @@ public class Paciente {
         return fechaNacimiento;
     }
 
+    /**
+     * Defines a method for parsing a Date to String as year/month/date format.
+     *
+     * @return a String in representation of its Date.
+     */
     public Date getFechaNacimientoAsDate(){
         if(this.fechaNacimiento.contains(" "))
             this.fechaNacimiento = this.fechaNacimiento.split(" ")[0];
@@ -140,6 +150,10 @@ public class Paciente {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    /**
+     * Defines a method for setting a Date from LocalDate instance.
+     * @param local
+     */
     public void setFechaFromLocal(LocalDate local){
         this.fechaNacimiento = local.getYear() + "-" + local.getMonthValue() + "-" + local.getDayOfMonth();
     }
@@ -196,6 +210,11 @@ public class Paciente {
         return citas.add(cita);
     }
 
+    /**
+     * Defines a method to parse a Paciente instance to Object ArrayList.
+     *
+     * @return a list of objects.
+     */
     public Object[] toList(){
         List<Object> objectList = new ArrayList<>();
 
@@ -239,6 +258,11 @@ public class Paciente {
         return this;
     }
 
+    /**
+     * Defines a method to subtract two years.
+     *
+     * @return the number of years difference.
+     */
     public int getEdad(){
         return Days.daysBetween(new org.joda.time.LocalDate(this.getFechaNacimientoAsDate()),
                 new org.joda.time.LocalDate(new Date())).getDays()/365;

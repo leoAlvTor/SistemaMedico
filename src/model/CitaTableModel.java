@@ -4,6 +4,11 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to define table model for Java Swing.
+ *
+ * @author Leonardo Alvarado
+ */
 public class CitaTableModel extends AbstractTableModel {
 
     private final String[] columnas = {"N. REGISTRO", "N. FICHA", "FECHA", "ANAMNESIS", "RECETA", "DIAGNOSITCO",

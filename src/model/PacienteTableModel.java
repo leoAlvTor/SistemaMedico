@@ -1,10 +1,13 @@
 package model;
 
 import javax.swing.table.AbstractTableModel;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to define table model for Java Swing.
+ * @author Leonardo Alvarado
+ */
 public class PacienteTableModel extends AbstractTableModel {
 
     private final String[] columnas = {"N. FICHA", "CEDULA", "NOMBRE", "APELLIDO", "DIRECCION", "TELEFONO", "CELULAR",

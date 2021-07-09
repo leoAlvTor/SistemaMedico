@@ -1,11 +1,20 @@
 package model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Cita {
 
+/**
+ * Class for Cita model.
+ *
+ * @author Leonardo Alvarado
+ */
+
+public class Cita {
     private int numeroRegistro;
     private int numeroFicha;
     private String fecha;
@@ -85,6 +94,11 @@ public class Cita {
         this.paciente = paciente;
     }
 
+    /**
+     * Defines a method to parse a Cita instance to Object ArrayList.
+     *
+     * @return a list of objects.
+     */
     public Object[] toList(){
         List<Object> objectList = new ArrayList<>();
         objectList.add(numeroFicha);
