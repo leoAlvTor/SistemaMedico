@@ -10,6 +10,8 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 import javax.swing.*;
 import java.math.BigInteger;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.*;
 
 /**
@@ -198,6 +200,24 @@ public class PacienteController implements CRUD<Paciente> {
         }catch (Exception e){
             System.out.println("ERROR: Error while getting records by its name: " + name + ", lastname: " + lastName + ", " + e.getMessage());
             return false;
+        }
+    }
+
+    public String getNextIndex(){
+        try{
+            var sql = """
+                    select Auto_increment
+                    from information_schema.tables
+                    where table_name = 'paciente'
+                    and table_schema = DATABASE( )
+                    """;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getString("Auto_increment");
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return "-1";
         }
     }
 }
