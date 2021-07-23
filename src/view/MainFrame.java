@@ -29,6 +29,7 @@ public class MainFrame extends JFrame {
     private JPanel panelSplash;
 
     public MainFrame(JFrame reference){
+
         reference.setVisible(false);
         mainPanel = new JPanel();
         mainPanel.setBorder(new EmptyBorder(0, 10, 5, 10));
