@@ -72,6 +72,7 @@ public class Paciente {
     }
 
     public String getNombresApellidos(){
+        System.out.println(this.nombres + this.apellidos);
         return this.nombres + " " + this.apellidos;
     }
 
