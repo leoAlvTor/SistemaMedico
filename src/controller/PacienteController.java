@@ -91,7 +91,12 @@ public class PacienteController implements CRUD<Paciente> {
         ResultSetHandler<Paciente> resultSetHandler = new BeanHandler<>(Paciente.class);
         var runner = new QueryRunner();
         try {
-            return runner.query(connection, "select * from paciente where NUMEROFICHA = ?", resultSetHandler, id);
+            Paciente p = runner.query(connection, "select * from paciente where NUMEROFICHA = ?", resultSetHandler, id);
+
+            System.out.println("P: " + p);
+
+            return p;
+
         }catch (Exception e){
             System.out.println("ERROR: Error while getting Paciente record with ID: " + id);
             return null;
