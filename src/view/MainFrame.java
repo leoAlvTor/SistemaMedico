@@ -128,7 +128,7 @@ public class MainFrame extends JFrame {
         mainPanel.remove(panelPacientes);
 
         panelPacientes.nuevoRegistro(null);
-
+        panelConsultas.loadData();
         mainPanel.add(panelConsultas, BorderLayout.CENTER);
         mainPanel.revalidate();
         mainPanel.repaint();

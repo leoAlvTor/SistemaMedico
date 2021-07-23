@@ -64,6 +64,8 @@ public class PanelPacientes extends JPanel {
         nombreApellidoPacienteMap =
                 pacienteController.getAll().stream().collect(Collectors.toMap(Paciente::getNombresApellidos,
                 Function.identity(), (a, b) -> a));
+        autocomplete = new JComboBox(nombreApellidoPacienteMap.keySet().toArray());
+        AutoCompletion.enable(autocomplete);
     }
 
     private void initLabels(){
@@ -107,8 +109,6 @@ public class PanelPacientes extends JPanel {
         txtEdad = new JTextField("");
         txtPesoKG = new JTextField("");
         txtTallaMT = new JTextField("");
-        autocomplete = new JComboBox(nombreApellidoPacienteMap.keySet().toArray());
-        AutoCompletion.enable(autocomplete);
     }
 
     private void initButtons(){

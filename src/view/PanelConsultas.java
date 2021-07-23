@@ -70,11 +70,10 @@ public class PanelConsultas extends JPanel {
 
     }
 
-    private void loadData(){
+    public void loadData(){
         nombreApellidoPacienteMap =
                 pacienteController.getAll().stream().collect(Collectors.toMap(Paciente::getNombresApellidos,
                         Function.identity(), (a, b) -> a));
-        //AutoCompleteDecorator.decorate(txtAutoComplete, nombreApellidoPacienteMap.keySet().stream().toList(), false);
         txtAutoComplete = new JComboBox(nombreApellidoPacienteMap.keySet().toArray());
         txtAutoComplete.setEditable(true);
         AutoCompletion.enable(txtAutoComplete);
