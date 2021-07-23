@@ -1,5 +1,7 @@
 package view;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 import javax.swing.*;
 import java.util.*;
 
@@ -15,8 +17,15 @@ public class Main {
      * @param args Class arguments.
      */
     public static void main(String[] args) {
-        var mainFrame = new MainFrame();
-        var img = new ImageIcon(Objects.requireNonNull(Main.class.getResource("/view/assets/icon.png")));
-        mainFrame.setIconImage(img.getImage());
+        FlatLightLaf.setup();
+
+        JFrame jFrame = new JFrame("Bienvenido");
+        jFrame.add(MainFrame.pnlPortada(jFrame));
+        jFrame.setSize(800, 600);
+        jFrame.setLocationRelativeTo(null);
+        jFrame.setVisible(true);
+
+        //var img = new ImageIcon(Objects.requireNonNull(Main.class.getResource("/view/assets/icon.png")));
+        //mainFrame.setIconImage(img.getImage());
     }
 }
