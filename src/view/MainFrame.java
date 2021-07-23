@@ -64,9 +64,11 @@ public class MainFrame extends JFrame {
         GridLayout grid = new GridLayout(1,2);
         grid.setHgap(10);
         panelMenu.setLayout(grid);
+
         JButton btnPacientes = new JButton("PACIENTES");
         btnPacientes.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
         btnPacientes.addActionListener(e -> setPanelPacientes());
+
         JButton btnConsultas = new JButton("CONSULTAS");
         btnConsultas.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
         btnConsultas.addActionListener(e -> setPanelConsultas());
@@ -78,8 +80,10 @@ public class MainFrame extends JFrame {
     }
 
     private void setPanelPacientes(){
-        if(panelConsultas != null)
+        if(panelConsultas != null) {
             mainPanel.remove(panelConsultas);
+            panelConsultas.nuevoRegistro();
+        }
         mainPanel.add(panelPacientes, BorderLayout.CENTER);
         mainPanel.revalidate();
         mainPanel.repaint();
@@ -122,6 +126,9 @@ public class MainFrame extends JFrame {
 
     private void setPanelConsultas(){
         mainPanel.remove(panelPacientes);
+
+        panelPacientes.nuevoRegistro(null);
+
         mainPanel.add(panelConsultas, BorderLayout.CENTER);
         mainPanel.revalidate();
         mainPanel.repaint();

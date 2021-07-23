@@ -137,7 +137,7 @@ public class PanelConsultas extends JPanel {
     }
 
     private void asignarFunciones(){
-        btnNuevo.addActionListener(e -> nuevoRegistro(this.getComponents()));
+        btnNuevo.addActionListener(e -> nuevoRegistro());
         btnGuardar.addActionListener(e -> guardarRegistro());
         btnCancelar.addActionListener(e -> cancelarRegistro());
         btnImprimir.addActionListener(e -> imprimirRegistro());
@@ -145,31 +145,22 @@ public class PanelConsultas extends JPanel {
         btnBuscar.addActionListener(e -> buscarRegistro());
     }
 
-    private void nuevoRegistro(Component[] componentParam){
+    public void nuevoRegistro(){
+        txtNumeroFicha.setText("");
+        txtCedula.setText("");
+        txtApellidos.setText("");
+        txtNombres.setText("");
+        txtEdad.setText("");
+        txtGenero.setText("");
+        txtResidencia.setText("");
+        txtProcedencia.setText("");
+
         txtHistorial.setText("");
         tablaHistorial.setModel(new CitaTableModel());
         txtAnamnesis.setText("");
         txtExamenes.setText("");
         txtDiagnostico.setText("");
         txtReceta.setText("");
-
-        for(Component component : componentParam)
-            if(component.getClass().getName().contains("JPanel"))
-                nuevoRegistro(((JPanel) component).getComponents());
-            else
-                switch (component.getClass().getName()){
-                    case "javax.swing.JTextField":
-                        ((JTextField)component).setText("");
-                        break;
-                    case "javax.swing.JComboBox":
-                        ((JComboBox)component).setSelectedIndex(0);
-                        break;
-                    case "javax.swing.JTextArea":
-                        ((JTextArea)component).setText("");
-                        break;
-                    default:
-                        break;
-                }
     }
 
     private void guardarRegistro(){
@@ -200,7 +191,7 @@ public class PanelConsultas extends JPanel {
                         "registro", JOptionPane.INFORMATION_MESSAGE);
                 tablaHistorial.setModel(new CitaTableModel(citaController.getAllByPaciente(paciente.getNumeroFicha())));
                 loadData();
-                nuevoRegistro(this.getComponents());
+                nuevoRegistro();
                 citaSeleccionadaID = -1;
             } else {
                 JOptionPane.showMessageDialog(null, "No se ha podido eliminar el registro seleccionado.", "Error al " +

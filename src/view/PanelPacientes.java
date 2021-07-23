@@ -147,25 +147,23 @@ public class PanelPacientes extends JPanel {
         btnSalir.addActionListener(e -> salir());
     }
 
-    private void nuevoRegistro(Component[] componentParam){
+    public void nuevoRegistro(Component[] componentParam){
         txtNumeroFicha.setText(pacienteController.getNextIndex());
-        for(Component component : componentParam)
-            if(component.getClass().getName().contains("JPanel"))
-                nuevoRegistro(((JPanel) component).getComponents());
-            else
-                switch (component.getClass().getName()){
-                    case "javax.swing.JTextField":
-                        ((JTextField)component).setText("");
-                        break;
-                    case "javax.swing.JComboBox":
-                        ((JComboBox)component).setSelectedIndex(0);
-                        break;
-                    case "javax.swing.JTextArea":
-                        ((JTextArea)component).setText("");
-                        break;
-                    default:
-                        break;
-                }
+        txtCedula.setText("");
+        txtApellidos.setText("");
+        txtNombres.setText("");
+        txtProcedencia.setText("");
+        txtResidencia.setText("");
+        comboBoxGenero.setSelectedIndex(0);
+        txtDireccion.setText("");
+        txtTelefono.setText("");
+        txtCelular.setText("");
+        txtEdad.setText("");
+        comboBoxEstadoCivil.setSelectedItem(0);
+        txtPesoKG.setText("");
+        txtTallaMT.setText("");
+        fechaNacimiento.setDateToToday();
+        comboBoxTipoSange.setSelectedIndex(0);
         txtCedula.requestFocus();
     }
 
