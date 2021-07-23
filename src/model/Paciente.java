@@ -34,7 +34,7 @@ public class Paciente {
 
     private List<Cita> citas;
 
-    public Paciente(){
+    public Paciente() {
         fechaNacimiento = new String();
         citas = new ArrayList<>();
     }
@@ -71,7 +71,7 @@ public class Paciente {
         this.apellidos = apellidos;
     }
 
-    public String getNombresApellidos(){
+    public String getNombresApellidos() {
         return this.nombres + " " + this.apellidos;
     }
 
@@ -133,15 +133,28 @@ public class Paciente {
      *
      * @return a String in representation of its Date.
      */
-    public Date getFechaNacimientoAsDate(){
-        if(this.fechaNacimiento.contains(" "))
+    public Date getFechaNacimientoAsDate() {
+        if (this.fechaNacimiento.contains(" "))
             this.fechaNacimiento = this.fechaNacimiento.split(" ")[0];
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             simpleDateFormat.parse(this.fechaNacimiento);
             return simpleDateFormat.parse(this.fechaNacimiento);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("ERROR: Error while parsing date: " + this.fechaNacimiento + ", ERROR: " + e.getMessage());
+            return new Date();
+        }
+    }
+
+    public static Date getBirthdayAsDate(String fechaNacimiento) {
+        if (fechaNacimiento.contains(" "))
+            fechaNacimiento = fechaNacimiento.split(" ")[0];
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            simpleDateFormat.parse(fechaNacimiento);
+            return simpleDateFormat.parse(fechaNacimiento);
+        } catch (Exception e) {
+            System.out.println("ERROR: Error while parsing date: " + fechaNacimiento + ", ERROR: " + e.getMessage());
             return new Date();
         }
     }
@@ -152,10 +165,16 @@ public class Paciente {
 
     /**
      * Defines a method for setting a Date from LocalDate instance.
+     *
      * @param local
      */
-    public void setFechaFromLocal(LocalDate local){
+    public void setFechaFromLocal(LocalDate local) {
         this.fechaNacimiento = local.getYear() + "-" + local.getMonthValue() + "-" + local.getDayOfMonth();
+    }
+
+    public static String getAgeFromLocal(LocalDate local) {
+        return String.valueOf(Days.daysBetween(new org.joda.time.LocalDate(Paciente.getBirthdayAsDate(local.getYear() + "-" + local.getMonthValue() + "-" + local.getDayOfMonth())),
+                new org.joda.time.LocalDate(new Date())).getDays() / 365);
     }
 
     public String getGenero() {
@@ -206,7 +225,7 @@ public class Paciente {
         this.citas = citas;
     }
 
-    public boolean addCita(Cita cita){
+    public boolean addCita(Cita cita) {
         return citas.add(cita);
     }
 
@@ -215,7 +234,7 @@ public class Paciente {
      *
      * @return a list of objects.
      */
-    public Object[] toList(){
+    public Object[] toList() {
         List<Object> objectList = new ArrayList<>();
 
         objectList.add(cedula);
@@ -238,7 +257,7 @@ public class Paciente {
     }
 
     @Deprecated(since = "1.0 Replaced with Apache Commons DBUtils")
-    public Paciente resultSetToPaciente(ResultSet resultSet) throws Exception{
+    public Paciente resultSetToPaciente(ResultSet resultSet) throws Exception {
         this.numeroFicha = resultSet.getInt(1);
         this.cedula = resultSet.getString(2);
         this.nombres = resultSet.getString(3);
@@ -263,12 +282,12 @@ public class Paciente {
      *
      * @return the number of years difference.
      */
-    public int getEdad(){
+    public int getEdad() {
         return Days.daysBetween(new org.joda.time.LocalDate(this.getFechaNacimientoAsDate()),
-                new org.joda.time.LocalDate(new Date())).getDays()/365;
+                new org.joda.time.LocalDate(new Date())).getDays() / 365;
     }
 
-    public boolean verifyID(){
+    public boolean verifyID() {
         byte sum = 0;
         try {
             if (cedula.trim().length() != 10)
