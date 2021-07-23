@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -62,8 +64,6 @@ public class PanelPacientes extends JPanel {
         nombreApellidoPacienteMap =
                 pacienteController.getAll().stream().collect(Collectors.toMap(Paciente::getNombresApellidos,
                 Function.identity(), (a, b) -> a));
-
-        //AutoCompleteDecorator.decorate(autocomplete);
     }
 
     private void initLabels(){
@@ -94,7 +94,7 @@ public class PanelPacientes extends JPanel {
     }
 
     private void initTextFields(){
-        txtNumeroFicha = new JTextField("0");
+        txtNumeroFicha = new JTextField(pacienteController.getNextIndex());
         txtNumeroFicha.setEditable(false);
         txtCedula = new JTextField("");
         txtApellidos = new JTextField("");
@@ -109,7 +109,6 @@ public class PanelPacientes extends JPanel {
         txtTallaMT = new JTextField("");
         autocomplete = new JComboBox(nombreApellidoPacienteMap.keySet().toArray());
         AutoCompletion.enable(autocomplete);
-        //autocomplete.setEditable(true);
     }
 
     private void initButtons(){
@@ -125,6 +124,15 @@ public class PanelPacientes extends JPanel {
         DatePickerSettings settings = new DatePickerSettings(locale);
         settings.setSizeTextFieldMinimumWidth(125);
         fechaNacimiento = new DatePicker(settings);
+
+        fechaNacimiento.addDateChangeListener(dateChangeEvent -> {
+            try {
+                txtEdad.setText(Paciente.getAgeFromLocal(fechaNacimiento.getDate()));
+            }catch (Exception e){
+                System.out.println("ERROR WHILE PARSING DATE");
+            }
+        });
+
         fechaNacimiento.setDateToToday();
 
         asignarFunciones();
@@ -140,6 +148,7 @@ public class PanelPacientes extends JPanel {
     }
 
     private void nuevoRegistro(Component[] componentParam){
+        txtNumeroFicha.setText(pacienteController.getNextIndex());
         for(Component component : componentParam)
             if(component.getClass().getName().contains("JPanel"))
                 nuevoRegistro(((JPanel) component).getComponents());
@@ -157,6 +166,7 @@ public class PanelPacientes extends JPanel {
                     default:
                         break;
                 }
+        txtCedula.requestFocus();
     }
 
     private boolean verificarDatos(Paciente paciente){
