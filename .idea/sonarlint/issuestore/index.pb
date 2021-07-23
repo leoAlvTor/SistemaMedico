@@ -40,7 +40,3 @@ C
 src/model/Cita.java,5\5\55991e90191733b8df94e02e9b9745d98046fa6b
 A
 SistemaMedico.iml,3\e\3e9e1dc451b4efce536221db6b70ea5486e5865e
-V
-&src/controller/PacienteController.java,c\d\cdb5f3e73f69bc09a9c8e5dc082c10e4349bb67b
-G
-src/model/Paciente.java,1\7\17528e338f17bb2014cf359cd42d201dc2def472

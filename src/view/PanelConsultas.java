@@ -50,7 +50,11 @@ public class PanelConsultas extends JPanel {
     private List<Cita> citaList;
     private int citaSeleccionadaID = -1;
 
-    public PanelConsultas(){
+    protected JFrame reference, parentReference;
+    public PanelConsultas(JFrame reference, JFrame parentReference){
+        this.reference = reference;
+        this.parentReference = parentReference;
+
         citaController = new CitaController();
 
         initLabels();
@@ -88,9 +92,13 @@ public class PanelConsultas extends JPanel {
         lblResidencia = new JLabel("RESIDENCIA:");
         lblProcedencia = new JLabel("PROCEDENCIA:");
         lblAnamnesis = new JLabel("ANAMNESIS Y EXAMEN FISICO:");
+        lblAnamnesis.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
         lblExamenes = new JLabel("EXAMENES:");
+        lblExamenes.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
         lblDiagnostico = new JLabel("DIAGNOSTICO:");
+        lblDiagnostico.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
         lblReceta = new JLabel("RECETA:");
+        lblReceta.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
     }
 
     private void initTextFields(){
@@ -196,13 +204,15 @@ public class PanelConsultas extends JPanel {
     }
 
     private void imprimirRegistro(){
-
+        JOptionPane.showMessageDialog(null, "Imprimiendo...", "", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void salir(){
         this.citaController.closeConnection();
         this.pacienteController.closeConnection();
-        System.exit(0);
+        parentReference.dispose();
+        reference.setVisible(true);
+        //System.exit(0);
     }
 
     private void buscarRegistro(){
@@ -227,7 +237,7 @@ public class PanelConsultas extends JPanel {
         this.add(getNorth());
         this.add(getSouth());
 
-        this.setBorder(new EmptyBorder(10, 10, 10, 10));
+        this.setBorder(new EmptyBorder(10, 0, 10, 0));
 
         txtNumeroFicha.setEditable(false);
         txtApellidos.setEditable(false);
@@ -310,7 +320,7 @@ public class PanelConsultas extends JPanel {
                 if(e.getClickCount() == 2 && table.getSelectedRow() != -1){
                     citaSeleccionadaID = (int)table.getModel().getValueAt(row, 0);
                     var pacienteNombres =
-                            pacienteController.getRecordById(table.getModel().getValueAt(row, 0)).getNombresApellidos();
+                            pacienteController.getRecordById(table.getModel().getValueAt(row, 1)).getNombresApellidos();
                     var fecha = String.valueOf(table.getModel().getValueAt(row, 2));
                     var anamnesis = String.valueOf(table.getModel().getValueAt(row,3));
                     var receta = String.valueOf(table.getModel().getValueAt(row, 4));
@@ -347,18 +357,21 @@ public class PanelConsultas extends JPanel {
         tabbedPane.add("HISTORIAL", pnl1);
 
         JPanel pnl2 = new JPanel();
-        pnl2.setBorder(new EmptyBorder(10, 10, 10,10));
+        pnl2.setBackground(new Color(167, 199, 185));
+        pnl2.setBorder(new EmptyBorder(10, 0, 10,0));
         GridLayout gridLayout = new GridLayout();
         gridLayout.setVgap(5);
         gridLayout.setHgap(5);
         pnl2.setLayout(gridLayout);
 
         JPanel subpnl2_1 = new JPanel();
+        subpnl2_1.setBackground(new Color(167, 199, 185));
         BorderLayout borderLayout = new BorderLayout();
         borderLayout.setVgap(10);
         subpnl2_1.setLayout(borderLayout);
 
         JPanel pnl2_1 = new JPanel(new GridLayout(1 ,2));
+        pnl2_1.setBackground(new Color(167, 199, 185));
         pnl2_1.add(lblAnamnesis);
 
         jScrollPaneAnamnesis = new JScrollPane(txtAnamnesis, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -367,6 +380,7 @@ public class PanelConsultas extends JPanel {
         pnl2_1.add(jScrollPaneAnamnesis);
 
         JPanel subpnl2_1_1 = new JPanel();
+        subpnl2_1_1.setBackground(new Color(167, 199, 185));
         GridLayout gridLayout1 = new GridLayout(2, 2);
         gridLayout1.setVgap(5);
         gridLayout1.setHgap(5);
@@ -383,6 +397,7 @@ public class PanelConsultas extends JPanel {
         pnl2.add(subpnl2_1);
 
         JPanel subpnl2_2 = new JPanel();
+        subpnl2_2.setBackground(new Color(167, 199, 185));
         subpnl2_2.setLayout(new VerticalLayout());
         subpnl2_2.add(lblReceta);
         jScrollPaneReceta = new JScrollPane(txtReceta, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -393,6 +408,7 @@ public class PanelConsultas extends JPanel {
         tabbedPane.add("NUEVA CONSULTA", pnl2);
 
         JPanel jPanelSouth = new JPanel();
+        jPanelSouth.setBackground(new Color(167, 199, 185));
         jPanelSouth.setLayout(new GridLayout());
 
         jPanelSouth.add(tabbedPane);
