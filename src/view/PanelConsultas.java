@@ -384,9 +384,18 @@ public class PanelConsultas extends JPanel {
         tabbedPane.add("NUEVA CONSULTA", new JPanel());
         tabbedPane.addChangeListener(e->{
             if(tabbedPane.getSelectedIndex()==1) {
-                tabbedPane.setSelectedIndex(0);
-                new Receta(this, txtAnamnesis, txtExamenes, txtDiagnostico, txtReceta);
-                this.getTopLevelAncestor().setVisible(false);
+                if(pacienteController.getRecordById(txtNumeroFicha.getText()) != null) {
+                    tabbedPane.setSelectedIndex(0);
+                    Receta receta = new Receta(this, txtNombres.getText()+" "+txtApellidos.getText(), txtAnamnesis,
+                            txtExamenes,
+                            txtDiagnostico,
+                            txtReceta);
+                    this.getTopLevelAncestor().setVisible(false);
+                }else {
+                    tabbedPane.setSelectedIndex(0);
+                    JOptionPane.showMessageDialog(null, "Debe buscar a un paciente antes de generar una nueva receta" +
+                            ".", "No ha selecciona a ningun paciente", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
 

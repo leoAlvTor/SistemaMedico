@@ -80,7 +80,7 @@ public class PanelPacientes extends JPanel {
         lblFechaNacimiento = new JLabel("FECHA NACIMIENTO:");
         lblEdad = new JLabel("EDAD:");
         lblEstadoCivil = new JLabel("ESTADO CIVIL:");
-        lblPesoKG = new JLabel("PESO KG:");
+        lblPesoKG = new JLabel("PESO EN LIBRAS:");
         lblTallaMT = new JLabel("TALLA MT:");
         lblTipoSangre = new JLabel("TIPO SANGRE:");
     }

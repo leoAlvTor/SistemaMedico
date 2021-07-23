@@ -7,24 +7,21 @@ import org.jdesktop.swingx.VerticalLayout;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
-record RecetaRecord(String nombre, String texto){
-
-}
-
 public class Receta extends JFrame {
-    RecetaRecord recetaRecord = new RecetaRecord("baby", "baby can i hold you tonight?");
 
     private JTextArea jTextAreaAnamnesis;
     private JTextArea jTextAreaExamenes;
     private JTextArea jTextAreaDiagnostico;
     private JTextArea jTextAreaReceta;
 
-    public Receta(JPanel parentReference, Object ... objects){
+    public Receta(JPanel parentReference, String paciente, Object ... objects){
         FlatLightLaf.setup();
-        initVariables(objects);
+        initVariables(paciente, objects);
 
         BorderLayout borderLayout = new BorderLayout();
         borderLayout.setVgap(15);
@@ -59,11 +56,7 @@ public class Receta extends JFrame {
         btnLimpiar.setFont(new Font(Font.DIALOG, Font.BOLD, 25));
         btnLimpiar.setBackground(new Color(167, 199, 185));
         btnLimpiar.addActionListener(e -> {
-            jTextAreaAnamnesis.setText("");
-            jTextAreaExamenes.setText("");
-            jTextAreaDiagnostico.setText("");
-            jTextAreaReceta.setText("");
-            jTextAreaAnamnesis.requestFocus();
+            limpiar();
         });
         panelBoton.add(btnLimpiar);
 
@@ -100,7 +93,15 @@ public class Receta extends JFrame {
             }
     }
 
-    private void initVariables(Object ... objects){
+    public void limpiar(){
+        jTextAreaAnamnesis.setText("");
+        jTextAreaExamenes.setText("");
+        jTextAreaDiagnostico.setText("");
+        jTextAreaReceta.setText("");
+        jTextAreaAnamnesis.requestFocus();
+    }
+
+    private void initVariables(String paciente, Object ... objects){
         jTextAreaAnamnesis = new JTextArea(20, 10);
         jTextAreaExamenes = new JTextArea(20, 10);
         jTextAreaDiagnostico = new JTextArea(20, 10);
@@ -110,6 +111,13 @@ public class Receta extends JFrame {
         jTextAreaExamenes.setText(((JTextField) objects[1]).getText());
         jTextAreaDiagnostico.setText(((JTextField) objects[2]).getText());
         jTextAreaReceta.setText(((JTextArea) objects[3]).getText());
+
+        if(!jTextAreaReceta.getText().contains(paciente + "\nFecha: " + getDate()))
+            jTextAreaReceta.setText(paciente + "\nFecha: " + getDate() + "\n\n" + jTextAreaReceta.getText());
+    }
+
+    private String getDate(){
+        return new SimpleDateFormat("dd/MM/yyyy").format(new Date());
     }
 
     private JPanel generateMainJPanel(){
