@@ -2,6 +2,7 @@ package view;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
+import controller.AutoCompletion;
 import controller.PacienteController;
 import model.Paciente;
 import org.jdesktop.swingx.VerticalLayout;
@@ -33,7 +34,7 @@ public class PanelPacientes extends JPanel {
 
     private DatePicker fechaNacimiento;
 
-    private JTextField autocomplete;
+    private JComboBox<String> autocomplete = new JComboBox<>();
 
     private JButton btnNuevo, btnGuardar, btnModificar, btnCancelar, btnSalir, btnBuscar;
 
@@ -42,18 +43,19 @@ public class PanelPacientes extends JPanel {
 
     private Map<String, Paciente> nombreApellidoPacienteMap;
 
-    public PanelPacientes(){
+    protected JFrame reference, parentReference;
+    public PanelPacientes(JFrame reference, JFrame parentReference){
+        this.reference = reference;
+        this.parentReference = parentReference;
+
         pacienteController = new PacienteController();
         nombreApellidoPacienteMap = new HashMap<>();
-
+        loadData();
         initLabels();
         initComboBox();
         initTextFields();
         initButtons();
-
         generateView();
-
-        loadData();
     }
 
     private void loadData(){
@@ -61,8 +63,7 @@ public class PanelPacientes extends JPanel {
                 pacienteController.getAll().stream().collect(Collectors.toMap(Paciente::getNombresApellidos,
                 Function.identity(), (a, b) -> a));
 
-        AutoCompleteDecorator.decorate(autocomplete, nombreApellidoPacienteMap.keySet().stream().toList(),
-                false);
+        //AutoCompleteDecorator.decorate(autocomplete);
     }
 
     private void initLabels(){
@@ -106,7 +107,9 @@ public class PanelPacientes extends JPanel {
         txtEdad = new JTextField("");
         txtPesoKG = new JTextField("");
         txtTallaMT = new JTextField("");
-        autocomplete = new JTextField(20);
+        autocomplete = new JComboBox(nombreApellidoPacienteMap.keySet().toArray());
+        AutoCompletion.enable(autocomplete);
+        //autocomplete.setEditable(true);
     }
 
     private void initButtons(){
@@ -191,7 +194,7 @@ public class PanelPacientes extends JPanel {
 
     private void modificarRegistro(){
         var paciente = mapFieldsToObject();
-        if(paciente.verifyID()){
+        if(!paciente.verifyID()){
             JOptionPane.showMessageDialog(null, "La cedula ingresada es incorrecta.", "Error al crear el registro",
                     JOptionPane.ERROR_MESSAGE);
             return;
@@ -212,10 +215,9 @@ public class PanelPacientes extends JPanel {
         jPanel.add(new JLabel("INGRESE EL NOMBRE: "));
         jPanel.add(autocomplete);
         int selected = JOptionPane.showConfirmDialog(null, jPanel, "Buscar Ficha",
-                JOptionPane.YES_NO_OPTION);
-
+                JOptionPane.DEFAULT_OPTION);
         if(selected == 0){
-            mapObjectToFields(nombreApellidoPacienteMap.get(autocomplete.getText()));
+            mapObjectToFields(nombreApellidoPacienteMap.get((String) autocomplete.getSelectedItem()));
         }
     }
 
@@ -230,7 +232,9 @@ public class PanelPacientes extends JPanel {
 
     private void salir(){
         this.pacienteController.closeConnection();
-        System.exit(0);
+        parentReference.dispose();
+        reference.setVisible(true);
+        //System.exit(0);
     }
 
     private void generateView(){
@@ -244,7 +248,7 @@ public class PanelPacientes extends JPanel {
         panelCenter.add(getCenter());
         this.add(panelCenter);
         this.add(getSouth(), BorderLayout.SOUTH);
-        this.setBorder(new EmptyBorder(10, 10, 10, 10));
+        this.setBorder(new EmptyBorder(10, 0, 10, 0));
     }
 
     private JPanel getSouth(){
@@ -323,13 +327,18 @@ public class PanelPacientes extends JPanel {
         panelCenter.setBorder(new EmptyBorder(10, 0, 0, 0));
 
         JPanel internalPanel = new JPanel(new VerticalLayout());
-        internalPanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 10, 10, 10),  new TitledBorder(
+        internalPanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 0, 10, 0),  new TitledBorder(
                 "INFORMACION MEDICA")));
         internalPanel.add(panelCenter);
         return internalPanel;
     }
 
     private void mapObjectToFields(Paciente paciente){
+        if(Objects.isNull(paciente)){
+            JOptionPane.showMessageDialog(null, "No se ha encontrado ningun paciente.", "Error al buscar paciente",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         for(Field field : this.getClass().getDeclaredFields()){
             if(field.getType().getName().contains("JTextField")){
                 for(Field field1 : paciente.getClass().getDeclaredFields()){
