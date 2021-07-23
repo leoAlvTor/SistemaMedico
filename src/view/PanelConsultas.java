@@ -1,5 +1,6 @@
 package view;
 
+import controller.AutoCompletion;
 import controller.CitaController;
 import controller.PacienteController;
 import model.Cita;
@@ -31,7 +32,9 @@ public class PanelConsultas extends JPanel {
     private JTabbedPane tabbedPane;
 
     private JTextField txtNumeroFicha, txtCedula, txtApellidos, txtNombres, txtEdad,
-    txtGenero, txtResidencia, txtProcedencia, txtExamenes, txtDiagnostico, txtAutoComplete;
+    txtGenero, txtResidencia, txtProcedencia, txtExamenes, txtDiagnostico;
+
+    private JComboBox txtAutoComplete;
 
     private JTextArea txtReceta, txtHistorial, txtAnamnesis;
     private JScrollPane jScrollPane, jScrollPaneReceta, jScrollPaneAnamnesis;
@@ -58,20 +61,23 @@ public class PanelConsultas extends JPanel {
 
         citaController = new CitaController();
 
+        loadData();
+
         initLabels();
         initTextFields();
         initButtons();
         generateView();
 
-        loadData();
     }
 
     private void loadData(){
         nombreApellidoPacienteMap =
                 pacienteController.getAll().stream().collect(Collectors.toMap(Paciente::getNombresApellidos,
                         Function.identity(), (a, b) -> a));
-        AutoCompleteDecorator.decorate(txtAutoComplete, nombreApellidoPacienteMap.keySet().stream().toList(), false);
-
+        //AutoCompleteDecorator.decorate(txtAutoComplete, nombreApellidoPacienteMap.keySet().stream().toList(), false);
+        txtAutoComplete = new JComboBox(nombreApellidoPacienteMap.keySet().toArray());
+        txtAutoComplete.setEditable(true);
+        AutoCompletion.enable(txtAutoComplete);
     }
 
     private void repintar(Component[] components){
@@ -118,7 +124,6 @@ public class PanelConsultas extends JPanel {
         txtReceta = new JTextArea(10, 0);
         txtHistorial = new JTextArea();
 
-        txtAutoComplete = new JTextField();
     }
 
     private void initButtons(){
@@ -221,8 +226,8 @@ public class PanelConsultas extends JPanel {
         jPanel.setLayout(new GridLayout(1, 2));
         jPanel.add(new JLabel("INGRESE EL NOMBRE: "));
         jPanel.add(txtAutoComplete);
-        if(JOptionPane.showConfirmDialog(null, jPanel, "BUSCAR FICHA", JOptionPane.YES_NO_OPTION) == 0){
-            paciente = nombreApellidoPacienteMap.get(txtAutoComplete.getText());
+        if(JOptionPane.showConfirmDialog(null, jPanel, "BUSCAR FICHA", JOptionPane.PLAIN_MESSAGE) == 0){
+            paciente = nombreApellidoPacienteMap.get(String.valueOf(txtAutoComplete.getSelectedItem()));
             mapObjectToFields(paciente);
 
             tablaHistorial.setModel(new CitaTableModel(citaController.getAllByPaciente(paciente.getNumeroFicha())));
