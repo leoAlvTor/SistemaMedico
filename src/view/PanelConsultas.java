@@ -51,6 +51,7 @@ public class PanelConsultas extends JPanel {
     private int citaSeleccionadaID = -1;
 
     protected JFrame reference, parentReference;
+
     public PanelConsultas(JFrame reference, JFrame parentReference){
         this.reference = reference;
         this.parentReference = parentReference;
@@ -282,21 +283,7 @@ public class PanelConsultas extends JPanel {
         jPanelLeft.add(lblProcedencia);
         jPanelLeft.add(txtProcedencia);
 
-        JPanel jPanelRight = new JPanel();
-        jPanelRight.setBorder(new TitledBorder("COMANDOS"));
-        GridLayout gridLayout1 = new GridLayout(6, 1);
-        gridLayout1.setVgap(5);
-        jPanelRight.setLayout(gridLayout1);
-
-        jPanelRight.add(btnBuscar);
-        jPanelRight.add(btnNuevo);
-        jPanelRight.add(btnGuardar);
-        jPanelRight.add(btnCancelar);
-        jPanelRight.add(btnImprimir);
-        jPanelRight.add(btnSalir);
-
         jPanelNorth.add(jPanelLeft, BorderLayout.CENTER);
-        jPanelNorth.add(jPanelRight, BorderLayout.EAST);
 
         return jPanelNorth;
     }
@@ -306,7 +293,7 @@ public class PanelConsultas extends JPanel {
         jScrollPane = new JScrollPane(txtHistorial, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         JPanel pnl1 = new JPanel();
-        pnl1.setLayout(new GridLayout(1, 2));
+        pnl1.setLayout(new BorderLayout());
         pnl1.add(jScrollPane);
 
         tablaHistorial = new JTable(new CitaTableModel());
@@ -326,25 +313,14 @@ public class PanelConsultas extends JPanel {
                     var receta = String.valueOf(table.getModel().getValueAt(row, 4));
                     var diagnostico = String.valueOf(table.getModel().getValueAt(row, 5));
                     var examenes = String.valueOf(table.getModel().getValueAt(row, 6));
-                    txtHistorial.setText(String.format("""
-                            PACIENTE:
-                            %1$s
-                            
-                            FECHA:
-                            %2$s
-                            
-                            ANAMNESIS:
-                            %3$s
-                            
-                            RECETA:
-                            %4$s
-                            
-                            DIAGNOSTICO:
-                            %5$s
-                            
-                            EXAMENES:
-                            %6$s
-                            """, pacienteNombres, fecha, anamnesis, receta, diagnostico, examenes));
+
+                    txtAnamnesis.setText(anamnesis);
+                    txtReceta.setText(receta);
+                    txtDiagnostico.setText(diagnostico);
+                    txtExamenes.setText(examenes);
+
+                    tabbedPane.setSelectedIndex(1);
+
                     Cita cita = citaController.getRecordById(table.getModel().getValueAt(row, 0));
                     mapObjectToFields(cita);
                     txtAnamnesis.setText(cita.getAnamnesis());
@@ -353,7 +329,7 @@ public class PanelConsultas extends JPanel {
             }
         });
 
-        pnl1.add(new JScrollPane(tablaHistorial));
+        pnl1.add(new JScrollPane(tablaHistorial), BorderLayout.CENTER);
         tabbedPane.add("HISTORIAL", pnl1);
 
         JPanel pnl2 = new JPanel();
@@ -405,13 +381,35 @@ public class PanelConsultas extends JPanel {
         subpnl2_2.add(jScrollPaneReceta);
         pnl2.add(subpnl2_2);
 
-        tabbedPane.add("NUEVA CONSULTA", pnl2);
+        tabbedPane.add("NUEVA CONSULTA", new JPanel());
+        tabbedPane.addChangeListener(e->{
+            if(tabbedPane.getSelectedIndex()==1) {
+                tabbedPane.setSelectedIndex(0);
+                new Receta(this, txtAnamnesis, txtExamenes, txtDiagnostico, txtReceta);
+                this.getTopLevelAncestor().setVisible(false);
+            }
+        });
 
         JPanel jPanelSouth = new JPanel();
         jPanelSouth.setBackground(new Color(167, 199, 185));
-        jPanelSouth.setLayout(new GridLayout());
+        jPanelSouth.setLayout(new BorderLayout());
 
-        jPanelSouth.add(tabbedPane);
+        jPanelSouth.add(tabbedPane, BorderLayout.CENTER);
+
+        JPanel jPanelRight = new JPanel();
+        jPanelRight.setBorder(new TitledBorder("COMANDOS"));
+        GridLayout gridLayout2 = new GridLayout(1, 6);
+        jPanelRight.setLayout(gridLayout2);
+
+        jPanelRight.add(btnBuscar);
+        jPanelRight.add(btnNuevo);
+        jPanelRight.add(btnGuardar);
+        jPanelRight.add(btnCancelar);
+        jPanelRight.add(btnImprimir);
+        jPanelRight.add(btnSalir);
+
+        jPanelSouth.add(jPanelRight, BorderLayout.SOUTH);
+
         return jPanelSouth;
     }
 
