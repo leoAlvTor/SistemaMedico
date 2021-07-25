@@ -24,18 +24,5 @@ public class Main {
         jFrame.setSize(800, 600);
         jFrame.setLocationRelativeTo(null);
         jFrame.setVisible(true);
-
-        //var img = new ImageIcon(Objects.requireNonNull(Main.class.getResource("/view/assets/icon.png")));
-        //mainFrame.setIconImage(img.getImage());
-
-        /*
-        PrinterJob pjob = PrinterJob.getPrinterJob();
-        PageFormat pf = pjob.defaultPage();
-        pjob.setPrintable(null, pf);
-
-        if (pjob.printDialog()) {
-          pjob.print();
-        }
-         */
     }
 }

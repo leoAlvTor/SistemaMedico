@@ -1,12 +1,9 @@
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import org.jdesktop.swingx.HorizontalLayout;
-import org.jdesktop.swingx.VerticalLayout;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +27,12 @@ public class MainFrame extends JFrame {
 
     public MainFrame(JFrame reference){
 
+        this.setUndecorated(true);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         reference.setVisible(false);
         mainPanel = new JPanel();
-        mainPanel.setBorder(new EmptyBorder(0, 10, 5, 10));
+        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         this.add(mainPanel);
         FlatLightLaf.setup();
@@ -100,6 +100,16 @@ public class MainFrame extends JFrame {
             }
     }
 
+    public static void staticRepaint(JPanel panel){
+        for(Component c : panel.getComponents()) {
+            System.out.println(c.getClass().getName());
+            c.setBackground(Color.ORANGE);
+            c.setBackground(new Color(5, 132, 102));
+        }
+        panel.repaint();
+        panel.revalidate();
+    }
+
     private void repaintComponents(){
         for(JPanel panel : panels)
             for(Component c : panel.getComponents()) {
@@ -145,23 +155,28 @@ public class MainFrame extends JFrame {
         borderLayout.setHgap(15);
 
         JPanel panelSplash = new JPanel(borderLayout);
-
+        panelSplash.setBackground(new Color(5, 132, 102));
         String htmlLabel = """
                 <html>
-                    <h1>CONSULTORIO MÉDICO</h1><br>
-                    <h2>Dr. Hugo Lucero Luziriaga</h2>
-                    <h3>Médico Salubrista - Master en Gerontologia</h3>
-                    <h3>Atención especializada sobre la vejez y envejecimiento</h3>
-                    <p>Telf.: 2275278 / 2859413 - Cel.: 0995262196 - Email: blucerol@hotmail.com</p>
+                    
+                    <div style='background-color: #058466'>
+                    <h1 style='font-size: 35px; color: white;'>CONSULTORIO MÉDICO</h1><br>
+                    <h1 style='font-size: 25px; color: white;'>Dr. Hugo Lucero Luzuriaga</h1>
+                    <h2 style='font-size: 20px; color: white;'>Médico Salubrista - Master en Gerontologia</h2>
+                    <h2 style='font-size: 17px; color: white;'>Atención especializada sobre la vejez y envejecimiento</h2>
+                    <h3 style='color: white;'>Telf.: 2275278 / 2859413 - Cel.: 0995262196 - Email: blucerol@hotmail.com</h3>
+                    </div>
                 </html>
                 """;
-        panelSplash.add(new JLabel(htmlLabel), BorderLayout.WEST);
+        JLabel labelTexto = new JLabel(htmlLabel);
+        panelSplash.add(labelTexto, BorderLayout.WEST);
         String html2Label = """
                 <html>
                     <img src='%1$s'/>
                 </html>
                 """.formatted(Main.class.getResource("/view/assets/old_couple.png"));
-        panelSplash.add(new JLabel(html2Label), BorderLayout.EAST);
+        JLabel label = new JLabel(html2Label);
+        panelSplash.add(label, BorderLayout.EAST);
 
         GridLayout gridLayoutBotones = new GridLayout(1, 2);
         gridLayoutBotones.setHgap(15);
@@ -170,19 +185,21 @@ public class MainFrame extends JFrame {
 
         JButton btnSalir = new JButton("SALIR");
         btnSalir.addActionListener(e -> System.exit(0));
-        btnSalir.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
+        btnSalir.setFont(new Font(Font.DIALOG, Font.PLAIN, 22));
 
         JButton btnAbrir = new JButton("INICIAR EL SISTEMA");
         btnAbrir.addActionListener(e->{
             new MainFrame(reference);
         });
-        btnAbrir.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
+        btnAbrir.setFont(new Font(Font.DIALOG, Font.PLAIN, 22));
 
         panelBotones.add(btnAbrir);
         panelBotones.add(btnSalir);
         panelBotones.setPreferredSize(new Dimension(200, 100));
+        panelBotones.setBackground(new Color(5, 132, 102));
         panelSplash.setBorder(new EmptyBorder(10, 10, 10, 10));
         panelSplash.add(panelBotones, BorderLayout.SOUTH);
+
         return panelSplash;
     }
 }

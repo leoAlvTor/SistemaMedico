@@ -11,11 +11,9 @@ import java.util.List;
  */
 public class CitaTableModel extends AbstractTableModel {
 
-    private final String[] columnas = {"N. REGISTRO", "N. FICHA", "FECHA", "ANAMNESIS", "RECETA", "DIAGNOSITCO",
-            "EXAMENES"};
+    private final String[] columnas = {"N. REGISTRO", "N. FICHA", "FECHA", "ANAMNESIS", "RECETA"};
 
-    private final Class<?>[] tiposColumnas = {String.class, String.class, String.class, String.class, String.class,
-            String.class, String.class};
+    private final Class<?>[] tiposColumnas = {String.class, String.class, String.class, String.class, String.class};
 
     private List<Cita> citaList;
 
@@ -54,8 +52,6 @@ public class CitaTableModel extends AbstractTableModel {
             case 2 -> cita.getFecha();
             case 3 -> cita.getAnamnesis();
             case 4 -> cita.getReceta();
-            case 5 -> cita.getDiagnostico();
-            case 6 -> cita.getExamenes();
             default -> "";
         };
     }

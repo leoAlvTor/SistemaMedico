@@ -3,6 +3,7 @@ package view;
 import controller.AutoCompletion;
 import controller.CitaController;
 import controller.PacienteController;
+import controller.PrinterController;
 import model.Cita;
 import model.CitaTableModel;
 import model.Paciente;
@@ -15,12 +16,12 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.font.TextAttribute;
 import java.lang.reflect.Field;
+import java.text.AttributedString;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -156,6 +157,7 @@ public class PanelConsultas extends JPanel {
 
         txtHistorial.setText("");
         tablaHistorial.setModel(new CitaTableModel());
+        tablaHistorial.removeColumn(tablaHistorial.getColumnModel().getColumn(1));
         txtAnamnesis.setText("");
         txtExamenes.setText("");
         txtDiagnostico.setText("");
@@ -172,7 +174,11 @@ public class PanelConsultas extends JPanel {
             JOptionPane.showMessageDialog(null, "Error al crear la consulta.", "ERROR AL CREAR",
                     JOptionPane.ERROR_MESSAGE);
         }
+        imprimirRegistro();
         loadData();
+        mapObjectToFields(paciente);
+        tablaHistorial.setModel(new CitaTableModel(citaController.getAllByPaciente(paciente.getNumeroFicha())));
+        tablaHistorial.removeColumn(tablaHistorial.getColumnModel().getColumn(1));
     }
 
     private void cancelarRegistro(){
@@ -189,6 +195,7 @@ public class PanelConsultas extends JPanel {
                 JOptionPane.showMessageDialog(null, "Se ha eliminado el registro correctamente.", "Se elimino el " +
                         "registro", JOptionPane.INFORMATION_MESSAGE);
                 tablaHistorial.setModel(new CitaTableModel(citaController.getAllByPaciente(paciente.getNumeroFicha())));
+                tablaHistorial.removeColumn(tablaHistorial.getColumnModel().getColumn(1));
                 loadData();
                 nuevoRegistro();
                 citaSeleccionadaID = -1;
@@ -199,8 +206,36 @@ public class PanelConsultas extends JPanel {
         }
     }
 
+    public JTextArea textoCabecera = new JTextArea();
+    private String breakLines(String texto){
+        StringTokenizer tok = new StringTokenizer(texto, " ");
+        StringBuilder output = new StringBuilder(texto.length());
+        int lineLen = 0;
+        while (tok.hasMoreTokens()) {
+            String word = tok.nextToken()+ " ";
+
+            if (lineLen + word.length() > 120) {
+                output.append("\n");
+                lineLen = 0;
+            }
+            output.append(word);
+            lineLen += word.length();
+        }
+        return output.toString();
+    }
+
     private void imprimirRegistro(){
-        JOptionPane.showMessageDialog(null, "Imprimiendo...", "", JOptionPane.INFORMATION_MESSAGE);
+        if(!txtReceta.getText().equals("")){
+            try {
+                new PrinterController(textoCabecera.getText() + breakLines(txtReceta.getText()));
+                JOptionPane.showMessageDialog(null, "Imprimiendo...", "Impresion en progreso", JOptionPane.INFORMATION_MESSAGE);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "La receta esta vacia.", "No se pudo imprimir", JOptionPane.WARNING_MESSAGE);
+        }
+
     }
 
     private void salir(){
@@ -221,6 +256,7 @@ public class PanelConsultas extends JPanel {
             mapObjectToFields(paciente);
 
             tablaHistorial.setModel(new CitaTableModel(citaController.getAllByPaciente(paciente.getNumeroFicha())));
+            tablaHistorial.removeColumn(tablaHistorial.getColumnModel().getColumn(1));
         }
         loadData();
     }
@@ -292,6 +328,10 @@ public class PanelConsultas extends JPanel {
         pnl1.add(jScrollPane);
 
         tablaHistorial = new JTable(new CitaTableModel());
+        tablaHistorial.setShowHorizontalLines(true);
+        tablaHistorial.setShowVerticalLines(true);
+
+
 
         tablaHistorial.addMouseListener(new MouseAdapter() {
             @Override
@@ -306,13 +346,9 @@ public class PanelConsultas extends JPanel {
                     var fecha = String.valueOf(table.getModel().getValueAt(row, 2));
                     var anamnesis = String.valueOf(table.getModel().getValueAt(row,3));
                     var receta = String.valueOf(table.getModel().getValueAt(row, 4));
-                    var diagnostico = String.valueOf(table.getModel().getValueAt(row, 5));
-                    var examenes = String.valueOf(table.getModel().getValueAt(row, 6));
 
                     txtAnamnesis.setText(anamnesis);
                     txtReceta.setText(receta);
-                    txtDiagnostico.setText(diagnostico);
-                    txtExamenes.setText(examenes);
 
                     tabbedPane.setSelectedIndex(1);
 
@@ -381,10 +417,11 @@ public class PanelConsultas extends JPanel {
             if(tabbedPane.getSelectedIndex()==1) {
                 if(pacienteController.getRecordById(txtNumeroFicha.getText()) != null) {
                     tabbedPane.setSelectedIndex(0);
-                    Receta receta = new Receta(this, txtNombres.getText()+" "+txtApellidos.getText(), txtAnamnesis,
+                    new Receta(this, txtNombres.getText() + " " + txtApellidos.getText(), btnGuardar, txtAnamnesis,
                             txtExamenes,
                             txtDiagnostico,
-                            txtReceta);
+                            txtReceta, textoCabecera);
+
                     this.getTopLevelAncestor().setVisible(false);
                 }else {
                     tabbedPane.setSelectedIndex(0);
