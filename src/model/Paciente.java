@@ -67,6 +67,10 @@ public class Paciente {
         return apellidos;
     }
 
+    public String getPrimerApellido(){
+        return apellidos.contains(" ") ? apellidos.split(" ")[0]: "";
+    }
+
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
