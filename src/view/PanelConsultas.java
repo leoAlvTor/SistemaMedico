@@ -7,6 +7,7 @@ import controller.PrinterController;
 import model.Cita;
 import model.CitaTableModel;
 import model.Paciente;
+import model.PacienteTableModel;
 import org.jdesktop.swingx.VerticalLayout;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -14,6 +15,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
@@ -53,6 +56,8 @@ public class PanelConsultas extends JPanel {
     private Map<String, Paciente> nombreApellidoPacienteMap;
     private List<Cita> citaList;
     private int citaSeleccionadaID = -1;
+    private List<Paciente> pacientes;
+    private JTable tablePaciente;
 
     protected JFrame reference, parentReference;
 
@@ -71,13 +76,20 @@ public class PanelConsultas extends JPanel {
 
     }
 
+    private JScrollPane jScrollPanePaciente;
     public void loadData(){
         nombreApellidoPacienteMap =
                 pacienteController.getAll().stream().collect(Collectors.toMap(Paciente::getNombresApellidos,
                         Function.identity(), (a, b) -> a));
-        txtAutoComplete = new JComboBox(nombreApellidoPacienteMap.keySet().toArray());
-        txtAutoComplete.setEditable(true);
-        AutoCompletion.enable(txtAutoComplete);
+        pacientes = nombreApellidoPacienteMap.values().stream().toList().stream()
+                .sorted(Comparator.comparing(Paciente::getApellidos)).collect(Collectors.toList());
+        tablePaciente = new JTable(new PacienteTableModel(pacientes));
+        this.tablePaciente.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
+        tablePaciente.setShowHorizontalLines(true);
+        tablePaciente.setShowVerticalLines(true);
+        tablePaciente.removeColumn(tablePaciente.getColumnModel().getColumn(0));
+        tablePaciente.removeColumn(tablePaciente.getColumnModel().getColumn(0));
+        jScrollPanePaciente = new JScrollPane(tablePaciente);
     }
 
     private void repintar(Component[] components){
@@ -176,6 +188,11 @@ public class PanelConsultas extends JPanel {
         }
         imprimirRegistro();
         loadData();
+        setPacienteCita(paciente);
+    }
+
+    public void setPacienteCita(Paciente paciente){
+        this.paciente = paciente;
         mapObjectToFields(paciente);
         tablaHistorial.setModel(new CitaTableModel(citaController.getAllByPaciente(paciente.getNumeroFicha())));
         tablaHistorial.removeColumn(tablaHistorial.getColumnModel().getColumn(1));
@@ -248,26 +265,45 @@ public class PanelConsultas extends JPanel {
 
     private void buscarRegistro(){
         var jPanel = new JPanel();
-        jPanel.setLayout(new GridLayout(1, 2));
-        jPanel.add(new JLabel("INGRESE EL NOMBRE: "));
-        jPanel.add(txtAutoComplete);
-        if(JOptionPane.showConfirmDialog(null, jPanel, "BUSCAR FICHA", JOptionPane.PLAIN_MESSAGE) == 0){
-            paciente = nombreApellidoPacienteMap.get(String.valueOf(txtAutoComplete.getSelectedItem()));
-            mapObjectToFields(paciente);
+        jPanel.setLayout(new BorderLayout());
+        var jPanelBusqueda = new JPanel(new BorderLayout());
+        JLabel lbl = new JLabel("INGRESE EL NOMBRE:");
+        JTextField txtBusqueda = new JTextField();
+        txtBusqueda.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                tablePaciente.setModel(new PacienteTableModel(pacientes.parallelStream().filter(f-> f.getNombresApellidos().toUpperCase().contains(txtBusqueda.getText().toUpperCase())).collect(Collectors.toList())));
+                tablePaciente.removeColumn(tablePaciente.getColumnModel().getColumn(0));
+                tablePaciente.removeColumn(tablePaciente.getColumnModel().getColumn(0));
+            }
+        });
+        tablePaciente.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                paciente =
+                        pacienteController.getRecordById(tablePaciente.getModel().getValueAt(tablePaciente.getSelectedRow(), 0));
+                mapObjectToFields(paciente);
+                tablaHistorial.setModel(new CitaTableModel(citaController.getAllByPaciente(paciente.getNumeroFicha())));
+                tablaHistorial.removeColumn(tablaHistorial.getColumnModel().getColumn(1));
+            }
+        });
 
-            tablaHistorial.setModel(new CitaTableModel(citaController.getAllByPaciente(paciente.getNumeroFicha())));
-            tablaHistorial.removeColumn(tablaHistorial.getColumnModel().getColumn(1));
-        }
-        loadData();
+        jPanelBusqueda.add(lbl, BorderLayout.WEST);
+        jPanelBusqueda.add(txtBusqueda, BorderLayout.CENTER);
+
+        jPanel.add(jPanelBusqueda, BorderLayout.NORTH);
+
+        jPanel.add(jScrollPanePaciente, BorderLayout.CENTER);
+        JOptionPane.showConfirmDialog(null, jPanel, "Buscar Ficha", JOptionPane.DEFAULT_OPTION);
     }
 
     private void generateView(){
-        GridLayout gridLayout = new GridLayout(2, 1);
+        BorderLayout gridLayout = new BorderLayout(2, 1);
         gridLayout.setVgap(15);
         this.setLayout(gridLayout);
 
-        this.add(getNorth());
-        this.add(getSouth());
+        this.add(getNorth(), BorderLayout.NORTH);
+        this.add(getSouth(), BorderLayout.CENTER);
 
         this.setBorder(new EmptyBorder(10, 0, 10, 0));
 
@@ -322,15 +358,16 @@ public class PanelConsultas extends JPanel {
     private JPanel getSouth(){
         tabbedPane = new JTabbedPane();
         jScrollPane = new JScrollPane(txtHistorial, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         JPanel pnl1 = new JPanel();
         pnl1.setLayout(new BorderLayout());
         pnl1.add(jScrollPane);
 
         tablaHistorial = new JTable(new CitaTableModel());
+        tablaHistorial.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
+
         tablaHistorial.setShowHorizontalLines(true);
         tablaHistorial.setShowVerticalLines(true);
-
 
 
         tablaHistorial.addMouseListener(new MouseAdapter() {
@@ -341,9 +378,7 @@ public class PanelConsultas extends JPanel {
                 var row = table.rowAtPoint(point);
                 if(e.getClickCount() == 2 && table.getSelectedRow() != -1){
                     citaSeleccionadaID = (int)table.getModel().getValueAt(row, 0);
-                    var pacienteNombres =
-                            pacienteController.getRecordById(table.getModel().getValueAt(row, 1)).getNombresApellidos();
-                    var fecha = String.valueOf(table.getModel().getValueAt(row, 2));
+
                     var anamnesis = String.valueOf(table.getModel().getValueAt(row,3));
                     var receta = String.valueOf(table.getModel().getValueAt(row, 4));
 
@@ -420,8 +455,7 @@ public class PanelConsultas extends JPanel {
                     new Receta(this, txtNombres.getText() + " " + txtApellidos.getText(), btnGuardar, txtAnamnesis,
                             txtExamenes,
                             txtDiagnostico,
-                            txtReceta, textoCabecera);
-
+                            txtReceta, textoCabecera, paciente);
                     this.getTopLevelAncestor().setVisible(false);
                 }else {
                     tabbedPane.setSelectedIndex(0);
@@ -454,7 +488,7 @@ public class PanelConsultas extends JPanel {
         return jPanelSouth;
     }
 
-    private void mapObjectToFields(Object citaParam){
+    public void mapObjectToFields(Object citaParam){
         for(Field field : this.getClass().getDeclaredFields()){
             if(field.getType().getName().contains("JTextField")){
                 for(Field field1 : citaParam.getClass().getDeclaredFields()){
