@@ -1,0 +1,24 @@
+
+\	java:S112ˆ"FDefine and throw a dedicated exception instead of using a generic one.(¿ÿ›½
+G
+java:S1128"1Remove this unused import 'java.text.DateFormat'.(÷Œá¼
+6
+java:S2129&" Remove this "String" constructor(ú¢·à
+E
+java:S6212"/Declare this local variable with "var" instead.(Ñ½øH
+O	java:S106”"9Replace this use of System.out or System.err by a logger.(™Èö¶
+E
+java:S6212"/Declare this local variable with "var" instead.(Ñ½øH
+O	java:S106¡"9Replace this use of System.out or System.err by a logger.(¡ŸµŒ
+L
+java:S1133ˆ"5Do not forget to remove this deprecated code someday.(¿ÿ›½
+?
+java:S1123ˆ"(Add the missing @deprecated Javadoc tag.(¿ÿ›½
+K
+java:S6212¬"/Declare this local variable with "var" instead.(ÜúâÇûÿÿÿÿ
+E
+java:S6212¯"/Declare this local variable with "var" instead.(¹”î{
+C
+java:S1905º"'Remove this unnecessary cast to "byte".(ùàğñûÿÿÿÿ
+K
+java:S6212É"/Declare this local variable with "var" instead.(òı´Ğùÿÿÿÿ

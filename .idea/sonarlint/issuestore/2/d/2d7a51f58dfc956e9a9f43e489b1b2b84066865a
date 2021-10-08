@@ -1,0 +1,45 @@
+
+f
+java:S1301-"KReplace this "switch" statement by "if" statements to increase readability.(ù‚Óøÿÿÿÿ
+E
+java:S3740"/Provide the parametrized type for this generic.(‡’·
+J
+java:S3740"/Provide the parametrized type for this generic.(ïí¶×üÿÿÿÿ
+E
+java:S3740"/Provide the parametrized type for this generic.(ï„Ñ²
+J
+java:S3740L"/Provide the parametrized type for this generic.(©Ö˜ÿÿÿÿÿ
+F
+java:S3740¸"/Provide the parametrized type for this generic.(åÍ…ö
+F
+java:S3740¸"/Provide the parametrized type for this generic.(åÍ…ö
+a	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(îŒØüÿÿÿÿ
+C
+java:S1604"(Make this anonymous inner class a lambda(€û¬£üÿÿÿÿ
+C
+java:S1604#"(Make this anonymous inner class a lambda(ï‰Â†úÿÿÿÿ
+D
+java:S1604Å"(Make this anonymous inner class a lambda(Ô¶µÿşÿÿÿÿ
+B
+java:S1948"'Make "model" transient or serializable.(ïí¶×üÿÿÿÿ
+N
+java:S1948"3Make "editorKeyListener" transient or serializable.(Æàõ¬ıÿÿÿÿ
+K
+java:S1948"5Make "editorFocusListener" transient or serializable.(õ³ØË
+O
+java:S1161*":Add the "@Override" annotation above this method signature(İ¼õA
+<	java:S131-""Add a default case to this switch.(ù‚Óøÿÿÿÿ
+U
+java:S1161=":Add the "@Override" annotation above this method signature(¿˜œÔşÿÿÿÿ
+P
+java:S1161@":Add the "@Override" annotation above this method signature(›™¥…
+P
+java:S1161a":Add the "@Override" annotation above this method signature(ÿ­ê£
+Q	java:S125k"<This block of commented-out lines of code should be removed.(ı¿ü·
+U
+java:S1161s":Add the "@Override" annotation above this method signature(úëˆÿÿÿÿÿ
+R	java:S125‚"<This block of commented-out lines of code should be removed.(ı¿ü·
+F
+java:S6212¸"/Declare this local variable with "var" instead.(åÍ…ö
+E
+java:S6212½"/Declare this local variable with "var" instead.(îûÀw
