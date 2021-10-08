@@ -1,6 +1,7 @@
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import model.Paciente;
 import org.jdesktop.swingx.HorizontalLayout;
 import org.jdesktop.swingx.VerticalLayout;
 
@@ -34,6 +35,7 @@ public class Receta extends JFrame {
         borderLayout.setVgap(15);
         this.setLayout(borderLayout);
         JPanel mainPanel = generateMainJPanel();
+        this.add(getPanelInformacion(), BorderLayout.NORTH);
         this.add(mainPanel, BorderLayout.CENTER);
 
         JButton jButton = new JButton("Crear Receta");
@@ -93,6 +95,51 @@ public class Receta extends JFrame {
         repaintComponents();
     }
 
+    private JPanel getPanelInformacion(){
+        JLabel jLabelNombre = new JLabel("NOMBRE:");
+        jLabelNombre.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
+
+        JLabel jLabelDireccion = new JLabel("DIRECCION:");
+        jLabelDireccion.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
+
+        JLabel jLabelProcedencia = new JLabel("PROCEDENCIA:");
+        jLabelProcedencia.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
+
+        JLabel lblNombre = new JLabel(this.objPaciente.getNombresApellidos());
+        lblNombre.setFont(jLabelNombre.getFont());
+
+        JLabel lblDireccion = new JLabel(this.objPaciente.getDireccion());
+        lblDireccion.setFont(jLabelNombre.getFont());
+
+        JLabel lblProcedencia = new JLabel(this.objPaciente.getProcedencia());
+        lblProcedencia.setFont(lblDireccion.getFont());
+
+        JPanel jPanel = new JPanel();
+        GridLayout gridLayout = new GridLayout(3, 2);
+        gridLayout.setVgap(5);
+        jPanel.setLayout(gridLayout);
+
+        jPanel.add(jLabelNombre);
+        jPanel.add(lblNombre);
+
+        jPanel.add(jLabelDireccion);
+        jPanel.add(lblDireccion);
+
+        jPanel.add(jLabelProcedencia);
+        jPanel.add(lblProcedencia);
+
+        jPanel.setBackground(new Color(167, 199, 185));
+
+        JPanel superPanel = new JPanel(new GridLayout(1, 2));
+        superPanel.add(jPanel);
+
+        JPanel dummypanel = new JPanel();
+        dummypanel.setBackground(new Color(167, 199, 185));
+        superPanel.add(dummypanel);
+
+        return superPanel;
+    }
+
     private java.util.List<JPanel> panels = new ArrayList<>();
     private void getComps(JPanel panel){
         for(Component c : panel.getComponents())
@@ -125,6 +172,7 @@ public class Receta extends JFrame {
         jTextAreaAnamnesis.requestFocus();
     }
 
+    private Paciente objPaciente;
     private void initVariables(String paciente, Object ... objects){
         jTextAreaAnamnesis = new JTextArea(20, 10);
         jTextAreaExamenes = new JTextArea(20, 10);
@@ -137,6 +185,8 @@ public class Receta extends JFrame {
         jTextAreaExamenes.setText(((JTextField) objects[1]).getText());
         jTextAreaDiagnostico.setText(((JTextField) objects[2]).getText());
         jTextAreaReceta.setText(((JTextArea) objects[3]).getText());
+
+        objPaciente = (Paciente) objects[5];
     }
 
     private String getDate(){
@@ -151,8 +201,6 @@ public class Receta extends JFrame {
         JPanel jPanelNorth = new JPanel(gridLayout);
 
         jPanelNorth.add(getJPanelAnamnesis());
-        // jPanelNorth.add(getJPanelExamenes());
-        // jPanelNorth.add(getJPanelDiagnostico());
         jPanel.add(jPanelNorth);
 
         jPanel.add(getJPanelReceta());
