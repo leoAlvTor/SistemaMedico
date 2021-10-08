@@ -114,6 +114,7 @@ public class PacienteController implements CRUD<Paciente> {
             var runner = new QueryRunner();
             return runner.query(connection, "select * from paciente", beanListHandler);
         }catch (Exception e){
+            System.out.println(e);
             System.out.println("ERROR: Error while getting all records from Paciente");
             return new ArrayList<>();
         }
