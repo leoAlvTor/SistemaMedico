@@ -66,11 +66,11 @@ public class MainFrame extends JFrame {
         panelMenu.setLayout(grid);
 
         JButton btnPacientes = new JButton("PACIENTES");
-        btnPacientes.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
+        btnPacientes.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
         btnPacientes.addActionListener(e -> setPanelPacientes());
 
         JButton btnConsultas = new JButton("CONSULTAS");
-        btnConsultas.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
+        btnConsultas.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
         btnConsultas.addActionListener(e -> setPanelConsultas());
 
         panelMenu.add(btnPacientes);
@@ -135,10 +135,14 @@ public class MainFrame extends JFrame {
     }
 
     private void setPanelConsultas(){
+        if(Objects.isNull(panelPacientes.pacienteSeleccionado))
+            JOptionPane.showConfirmDialog(null, "No ha seleccionado a ningun paciente.", "", JOptionPane.PLAIN_MESSAGE);
+        else
+            panelConsultas.setPacienteCita(panelPacientes.pacienteSeleccionado);
         mainPanel.remove(panelPacientes);
-
-        panelPacientes.nuevoRegistro(null);
+        panelPacientes.nuevoRegistro(this.getComponents());
         panelConsultas.loadData();
+
         mainPanel.add(panelConsultas, BorderLayout.CENTER);
         mainPanel.revalidate();
         mainPanel.repaint();
