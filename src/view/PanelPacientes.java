@@ -2,11 +2,10 @@ package view;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
-import controller.AutoCompletion;
 import controller.PacienteController;
 import model.Paciente;
+import model.PacienteTableModel;
 import org.jdesktop.swingx.VerticalLayout;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,10 +13,13 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -44,6 +46,10 @@ public class PanelPacientes extends JPanel {
     public final PacienteController pacienteController;
 
     private Map<String, Paciente> nombreApellidoPacienteMap;
+    private List<Paciente> pacientes;
+    private JTable tablePaciente;
+
+    public Paciente pacienteSeleccionado;
 
     protected JFrame reference, parentReference;
     public PanelPacientes(JFrame reference, JFrame parentReference){
@@ -60,12 +66,24 @@ public class PanelPacientes extends JPanel {
         generateView();
     }
 
+    JScrollPane jScrollPanePaciente;
     private void loadData(){
         nombreApellidoPacienteMap =
                 pacienteController.getAll().stream().collect(Collectors.toMap(Paciente::getNombresApellidos,
                 Function.identity(), (a, b) -> a));
-        autocomplete = new JComboBox(nombreApellidoPacienteMap.keySet().toArray());
-        AutoCompletion.enable(autocomplete);
+        this.pacientes = nombreApellidoPacienteMap.values().stream().toList();
+        this.pacientes = this.pacientes.stream()
+                .sorted(Comparator.comparing(Paciente::getApellidos)).collect(Collectors.toList());
+
+        this.tablePaciente = new JTable(new PacienteTableModel(pacientes));
+        this.tablePaciente.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
+        tablePaciente.setShowHorizontalLines(true);
+        tablePaciente.setShowVerticalLines(true);
+
+        tablePaciente.removeColumn(tablePaciente.getColumnModel().getColumn(0));
+        tablePaciente.removeColumn(tablePaciente.getColumnModel().getColumn(0));
+        jScrollPanePaciente= new JScrollPane(tablePaciente, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
 
     private void initLabels(){
@@ -118,7 +136,6 @@ public class PanelPacientes extends JPanel {
         btnBuscar = new JButton("BUSCAR");
         btnCancelar = new JButton("ELIMINAR");
         btnSalir = new JButton("SALIR");
-        btnBuscar = new JButton("BUSCAR");
 
         Locale locale = new Locale("es", "ES");
         DatePickerSettings settings = new DatePickerSettings(locale);
@@ -147,7 +164,7 @@ public class PanelPacientes extends JPanel {
         btnSalir.addActionListener(e -> salir());
     }
 
-    public void nuevoRegistro(Component[] componentParam){
+    public void nuevoRegistro(Component[] components){
         txtNumeroFicha.setText(pacienteController.getNextIndex());
         txtCedula.setText("");
         txtApellidos.setText("");
@@ -188,8 +205,6 @@ public class PanelPacientes extends JPanel {
     private void guardarRegistro(){
         var paciente = mapFieldsToObject();
 
-        if(!verificarDatos(paciente))
-            return;
         if(pacienteController.createRecord(paciente.toList()).intValue() > 0){
             JOptionPane.showMessageDialog(null, "Se ha guardado el registro correctamente.",
                     "REGISTRO CREADO", JOptionPane.INFORMATION_MESSAGE);
@@ -219,14 +234,36 @@ public class PanelPacientes extends JPanel {
 
     private void buscarRegistro(){
         var jPanel = new JPanel();
-        jPanel.setLayout(new GridLayout(1, 2));
-        jPanel.add(new JLabel("INGRESE EL NOMBRE: "));
-        jPanel.add(autocomplete);
-        int selected = JOptionPane.showConfirmDialog(null, jPanel, "Buscar Ficha",
-                JOptionPane.DEFAULT_OPTION);
-        if(selected == 0){
-            mapObjectToFields(nombreApellidoPacienteMap.get((String) autocomplete.getSelectedItem()));
-        }
+        jPanel.setLayout(new BorderLayout());
+
+        var jPanelBusqueda = new JPanel(new BorderLayout());
+        JLabel lbl = new JLabel("INGRESE EL NOMBRE:");
+        JTextField txtBusqueda = new JTextField();
+        txtBusqueda.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                tablePaciente.setModel(new PacienteTableModel(pacientes.parallelStream().filter(f-> f.getApellidos().toUpperCase().contains(txtBusqueda.getText().toUpperCase())).collect(Collectors.toList())));
+                tablePaciente.removeColumn(tablePaciente.getColumnModel().getColumn(0));
+                tablePaciente.removeColumn(tablePaciente.getColumnModel().getColumn(0));
+            }
+        });
+
+        tablePaciente.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                pacienteSeleccionado =
+                        pacienteController.getRecordById(tablePaciente.getModel().getValueAt(tablePaciente.getSelectedRow(), 0));
+                mapObjectToFields(pacienteSeleccionado);
+            }
+        });
+
+        jPanelBusqueda.add(lbl, BorderLayout.WEST);
+        jPanelBusqueda.add(txtBusqueda, BorderLayout.CENTER);
+
+        jPanel.add(jPanelBusqueda, BorderLayout.NORTH);
+
+        jPanel.add(jScrollPanePaciente, BorderLayout.CENTER);
+        JOptionPane.showConfirmDialog(null, jPanel, "Buscar Ficha", JOptionPane.DEFAULT_OPTION);
     }
 
     private void cancelarRegistro(){
@@ -242,7 +279,6 @@ public class PanelPacientes extends JPanel {
         this.pacienteController.closeConnection();
         parentReference.dispose();
         reference.setVisible(true);
-        //System.exit(0);
     }
 
     private void generateView(){
