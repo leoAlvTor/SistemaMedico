@@ -1,9 +1,6 @@
 package view;
 
-import controller.AutoCompletion;
-import controller.CitaController;
-import controller.PacienteController;
-import controller.PrinterController;
+import controller.*;
 import model.Cita;
 import model.CitaTableModel;
 import model.Paciente;
@@ -36,7 +33,7 @@ public class PanelConsultas extends JPanel {
     private JTabbedPane tabbedPane;
 
     private JTextField txtNumeroFicha, txtCedula, txtApellidos, txtNombres, txtEdad,
-    txtGenero, txtResidencia, txtProcedencia, txtExamenes, txtDiagnostico;
+    txtGenero, txtResidencia, txtProcedencia, txtExamenes, txtDiagnostico, txtTratamiento;
 
     private JComboBox txtAutoComplete;
 
@@ -135,6 +132,7 @@ public class PanelConsultas extends JPanel {
         txtDiagnostico = new JTextField();
         txtReceta = new JTextArea(10, 0);
         txtHistorial = new JTextArea();
+        txtTratamiento = new JTextField();
 
     }
 
@@ -178,7 +176,10 @@ public class PanelConsultas extends JPanel {
 
     private void guardarRegistro(){
         var cita = mapFieldsToObject();
-
+        if(Objects.isNull(cita)) {
+            System.out.println("CITA NULA AL GUARDAR REGISTRO");
+            return;
+        }
         if(citaController.createRecord(cita.toList()).intValue() > 0){
             JOptionPane.showMessageDialog(null, "Se ha guardado la consulta correctamente.",
                     "CONSULTA CREADA", JOptionPane.INFORMATION_MESSAGE);
@@ -244,7 +245,7 @@ public class PanelConsultas extends JPanel {
     private void imprimirRegistro(){
         if(!txtReceta.getText().equals("")){
             try {
-                new PrinterController(textoCabecera.getText() + breakLines(txtReceta.getText()));
+                new WordController(textoCabecera.getText() + txtReceta.getText());
                 JOptionPane.showMessageDialog(null, "Imprimiendo...", "Impresion en progreso", JOptionPane.INFORMATION_MESSAGE);
             }catch (Exception e){
                 System.out.println(e.getMessage());
@@ -455,7 +456,7 @@ public class PanelConsultas extends JPanel {
                     new Receta(this, txtNombres.getText() + " " + txtApellidos.getText(), btnGuardar, txtAnamnesis,
                             txtExamenes,
                             txtDiagnostico,
-                            txtReceta, textoCabecera, paciente);
+                            txtReceta, textoCabecera, paciente, txtTratamiento);
                     this.getTopLevelAncestor().setVisible(false);
                 }else {
                     tabbedPane.setSelectedIndex(0);
@@ -519,7 +520,10 @@ public class PanelConsultas extends JPanel {
             cita.setReceta(txtReceta.getText());
             cita.setDiagnostico(txtDiagnostico.getText());
             cita.setExamenes(txtExamenes.getText());
-
+            cita.setTratamiento("");
+            /**
+             * 0-0-0-0-0-0-0-0
+             */
             cita.setPaciente(paciente);
 
             return cita;

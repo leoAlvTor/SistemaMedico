@@ -2,7 +2,10 @@ package model;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Class to define table model for Java Swing.
@@ -25,6 +28,12 @@ public class CitaTableModel extends AbstractTableModel {
     public CitaTableModel(List<Cita> citas){
         super();
         this.citaList = citas;
+
+        Collections.sort(citaList, Comparator.comparing(Cita::getNumeroRegistro).reversed());
+
+        if(citas != null)
+            this.citaList.stream()
+                    .sorted(Comparator.comparing(Cita::getFecha)).collect(Collectors.toList());
     }
 
     @Override

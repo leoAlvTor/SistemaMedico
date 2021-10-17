@@ -68,8 +68,8 @@ public class CitaController implements CRUD<Cita>{
      */
     @Override
     public BigInteger createRecord(Object ... objects) {
-        String sql = "insert into cita(NUMEROFICHA, FECHA, ANAMNESIS, RECETA, DIAGNOSTICO, EXAMENES) values (?, ?, ?," +
-                " ?, ?, ?)";
+        String sql = "insert into cita(NUMEROFICHA, FECHA, ANAMNESIS, RECETA, DIAGNOSTICO, EXAMENES, TRATAMIENTO) values (?, ?, ?," +
+                " ?, ?, ?, ?)";
         try{
             ScalarHandler<BigInteger> scalarHandler = new ScalarHandler<>();
             return new QueryRunner().insert(connection, sql, scalarHandler, objects);
@@ -147,7 +147,7 @@ public class CitaController implements CRUD<Cita>{
         objects1[objects.length] = id;
         try{
             String updateSQL = "update cita set NUMEROFICHA = ?, FECHA = ?, ANAMNESIS = ?, RECETA = ?, DIAGNOSTICO = " +
-                    "?, EXAMENES = ? where NUMEROREGISTRO = ?";
+                    "?, EXAMENES = ?, TRATAMIENTO = ? where NUMEROREGISTRO = ?";
             return new QueryRunner().update(connection, updateSQL, objects1);
         }catch (Exception e){
             System.out.println("ERROR: Error while updating record with id: " + id);

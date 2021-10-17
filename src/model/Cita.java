@@ -19,6 +19,7 @@ public class Cita {
     private String receta;
     private String diagnostico;
     private String examenes;
+    private String tratamiento;
 
     private Paciente paciente;
 
@@ -91,6 +92,14 @@ public class Cita {
         this.paciente = paciente;
     }
 
+    public String getTratamiento() {
+        return tratamiento;
+    }
+
+    public void setTratamiento(String tratamiento) {
+        this.tratamiento = tratamiento;
+    }
+
     /**
      * Defines a method to parse a Cita instance to Object ArrayList.
      *
@@ -104,7 +113,7 @@ public class Cita {
         objectList.add(receta);
         objectList.add(diagnostico);
         objectList.add(examenes);
-
+        objectList.add(tratamiento);
         return objectList.toArray();
     }
 
@@ -126,11 +135,12 @@ public class Cita {
         return "Cita{" +
                 "numeroRegistro=" + numeroRegistro +
                 ", numeroFicha=" + numeroFicha +
-                ", fecha=" + fecha +
+                ", fecha='" + fecha + '\'' +
                 ", anamnesis='" + anamnesis + '\'' +
                 ", receta='" + receta + '\'' +
                 ", diagnostico='" + diagnostico + '\'' +
                 ", examenes='" + examenes + '\'' +
+                ", tratamiento='" + tratamiento + '\'' +
                 ", paciente=" + paciente +
                 '}';
     }

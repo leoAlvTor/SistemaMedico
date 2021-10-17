@@ -10,6 +10,7 @@ import javax.swing.border.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -18,6 +19,8 @@ public class Receta extends JFrame {
     private JTextArea jTextAreaAnamnesis;
     private JTextArea jTextAreaExamenes;
     private JTextArea jTextAreaDiagnostico;
+    private JTextArea jTextAreaTratamiento;
+
     private JTextArea jTextAreaReceta;
 
     private String paciente;
@@ -50,6 +53,7 @@ public class Receta extends JFrame {
                 spaces += " ";
             }
             ((JTextArea)objects[4]).setText(spaces + "Fecha: " + getDate() + "\n\n");
+            ((JTextField)objects[6]).setText(jTextAreaTratamiento.getText());
             JOptionPane.showMessageDialog(null, "Se ha creado la receta correctamente.\nPuede proceder a imprimir.",
                     "Receta Lista",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -174,9 +178,11 @@ public class Receta extends JFrame {
 
     private Paciente objPaciente;
     private void initVariables(String paciente, Object ... objects){
-        jTextAreaAnamnesis = new JTextArea(20, 10);
-        jTextAreaExamenes = new JTextArea(20, 10);
-        jTextAreaDiagnostico = new JTextArea(20, 10);
+        jTextAreaAnamnesis = new JTextArea(4, 10);
+        jTextAreaExamenes = new JTextArea(4, 10);
+        jTextAreaDiagnostico = new JTextArea(4, 10);
+        jTextAreaTratamiento = new JTextArea(4, 10);
+
         jTextAreaReceta = new JTextArea();
         jTextAreaReceta.setLineWrap(true);
         jTextAreaReceta.setWrapStyleWord(true);
@@ -187,6 +193,7 @@ public class Receta extends JFrame {
         jTextAreaReceta.setText(((JTextArea) objects[3]).getText());
 
         objPaciente = (Paciente) objects[5];
+        jTextAreaTratamiento.setText(((JTextField)objects[6]).getText());
     }
 
     private String getDate(){
@@ -209,23 +216,41 @@ public class Receta extends JFrame {
     }
 
     private JPanel getJPanelAnamnesis(){
-        return getGenericJPanel(new JLabel("Anamnesis-Examen Fisico-Examenes-Tratamiento"), jTextAreaAnamnesis);
+        var panelIzquierda = new JPanel();
+
+        var anamnesis = getGenericJPanel(new JLabel("Historia clinica Anamnesis"), jTextAreaAnamnesis,
+                new Dimension(200, 300));
+        var examenes = getGenericJPanel(new JLabel("Examenes"), jTextAreaExamenes, new Dimension(200, 100));
+        var diagnostico = getGenericJPanel(new JLabel("Diagnostico"), jTextAreaDiagnostico, new Dimension(200, 100));
+        var tratamiento = getGenericJPanel(new JLabel("Tratamiento"), jTextAreaTratamiento, new Dimension(200, 200));
+        JPanel[] panels = new JPanel[]{anamnesis, examenes, diagnostico, tratamiento};
+        LayoutManager layoutManager = new BoxLayout(panelIzquierda, BoxLayout.Y_AXIS);
+        panelIzquierda.setLayout(layoutManager);
+        var boxes = new Box[4];
+        for (var i = 0; i < boxes.length; i++) {
+            boxes[i] = Box.createHorizontalBox();
+            boxes[i].createGlue();
+            panelIzquierda.add(boxes[i]);
+            boxes[i].add(panels[i]);
+        }
+
+        return panelIzquierda;
     }
 
     private JPanel getJPanelExamenes(){
-        return getGenericJPanel(new JLabel("Examenes"), jTextAreaExamenes);
+        return getGenericJPanel(new JLabel("Examenes"), jTextAreaExamenes, null);
     }
 
     private JPanel getJPanelDiagnostico(){
-        return getGenericJPanel(new JLabel("Diagnostico"), jTextAreaDiagnostico);
+        return getGenericJPanel(new JLabel("Diagnostico"), jTextAreaDiagnostico, null);
     }
 
     private JPanel getJPanelReceta(){
-        return getGenericJPanel(new JLabel("Receta"), jTextAreaReceta);
+        return getGenericJPanel(new JLabel("Receta"), jTextAreaReceta, null);
     }
 
-    private JPanel getGenericJPanel(JLabel label, JTextArea textArea){
-
+    private JPanel getGenericJPanel(JLabel label, JTextArea textArea, Dimension preferedSize){
+        label.setBackground(new Color(5, 132, 102));
         textArea.setLineWrap(true);
         label.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
         textArea.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
@@ -238,6 +263,8 @@ public class Receta extends JFrame {
         panel.add(label, BorderLayout.NORTH);
         panel.add(jScrollPane, BorderLayout.CENTER);
         panel.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+        if(preferedSize!=null)
+            panel.setPreferredSize(preferedSize);
         return panel;
     }
 
